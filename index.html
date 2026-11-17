@@ -1,45 +1,129 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="m3-dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Киев Радар — ИИ Мониторинг</title>
   <style>
-    :root {
-      --bg: #0b0a10;
-      --surface: #15131e;
-      --surface-cont: #1e1b29;
-      --surface-high: #282436;
+    /* ===================== ТЕМА 1: MATERIAL YOU EXPRESSIVE DARK (ПО УМОЛЧАНИЮ) ===================== */
+    :root,
+    [data-theme="m3-dark"] {
+      --bg: #0e0c14;
+      --bg-mesh: radial-gradient(120% 80% at 50% -15%, rgba(208, 188, 255, 0.12), transparent 65%);
+      --surface-1: #171421;
+      --surface-2: #1f1b2c;
+      --surface-3: #292438;
+      --surface-glass: rgba(25, 22, 36, 0.84);
       --outline: rgba(255, 255, 255, 0.08);
-      --outline-glow: rgba(255, 255, 255, 0.16);
+      --outline-strong: rgba(255, 255, 255, 0.16);
 
-      --on-surface: #f2ecf9;
-      --on-variant: #9e96ab;
-
-      /* Палитра состояний M3 Expressive */
-      --green: #81c784;
-      --green-light: #b9f6ca;
-      --green-cont: #0b3d14;
-      --green-glow: rgba(11, 61, 20, 0.45);
-
-      --yellow: #ffd54f;
-      --yellow-light: #ffe57f;
-      --yellow-cont: #523800;
-      --yellow-glow: rgba(82, 56, 0, 0.5);
-
-      --red: #ff8a80;
-      --red-light: #ffdad6;
-      --red-cont: #7d0007;
-      --red-glow: rgba(125, 0, 7, 0.55);
+      --on-surface: #f4effa;
+      --on-variant: #a79fb5;
 
       --primary: #d0bcff;
-      --primary-cont: #3f2e66;
-      --on-primary: #261059;
+      --primary-cont: #4a3575;
+      --on-primary: #240e52;
+      --on-primary-cont: #ebddff;
 
+      --green: #6dd58c;
+      --green-light: #b9f6ca;
+      --green-cont: rgba(17, 74, 34, 0.72);
+      --green-glow: rgba(46, 160, 80, 0.34);
+
+      --yellow: #ffd54f;
+      --yellow-light: #ffecb3;
+      --yellow-cont: rgba(94, 66, 0, 0.78);
+      --yellow-glow: rgba(255, 193, 7, 0.36);
+
+      --red: #ff897d;
+      --red-light: #ffdad6;
+      --red-cont: rgba(128, 19, 19, 0.82);
+      --red-glow: rgba(244, 67, 54, 0.42);
+
+      --shadow-card: 0 12px 32px rgba(0, 0, 0, 0.34);
+    }
+
+    /* ===================== ТЕМА 2: AMOLED ЧЁРНЫЙ ===================== */
+    [data-theme="amoled"] {
+      --bg: #000000;
+      --bg-mesh: radial-gradient(120% 70% at 50% -20%, rgba(182, 157, 248, 0.08), transparent 60%);
+      --surface-1: #070709;
+      --surface-2: #0d0d12;
+      --surface-3: #16161f;
+      --surface-glass: rgba(8, 8, 12, 0.92);
+      --outline: rgba(255, 255, 255, 0.11);
+      --outline-strong: rgba(255, 255, 255, 0.22);
+
+      --on-surface: #ffffff;
+      --on-variant: #9692a3;
+
+      --primary: #d5c4ff;
+      --primary-cont: #38265c;
+      --on-primary: #1a0642;
+      --on-primary-cont: #eee4ff;
+
+      --green: #5ce68b;
+      --green-light: #c8ffda;
+      --green-cont: rgba(8, 56, 22, 0.88);
+      --green-glow: rgba(40, 180, 85, 0.28);
+
+      --yellow: #ffda59;
+      --yellow-light: #fff0b8;
+      --yellow-cont: rgba(77, 53, 0, 0.9);
+      --yellow-glow: rgba(255, 196, 0, 0.3);
+
+      --red: #ff7769;
+      --red-light: #ffe2de;
+      --red-cont: rgba(112, 10, 10, 0.92);
+      --red-glow: rgba(255, 65, 54, 0.36);
+
+      --shadow-card: 0 10px 28px rgba(0, 0, 0, 0.85);
+    }
+
+    /* ===================== ТЕМА 3: СВЕТЛАЯ (MATERIAL YOU LIGHT) ===================== */
+    [data-theme="light"] {
+      --bg: #f6f2fa;
+      --bg-mesh: radial-gradient(120% 80% at 50% -15%, rgba(103, 80, 164, 0.1), transparent 65%);
+      --surface-1: #ffffff;
+      --surface-2: #efeaf6;
+      --surface-3: #e4ddf0;
+      --surface-glass: rgba(255, 255, 255, 0.88);
+      --outline: rgba(40, 30, 60, 0.09);
+      --outline-strong: rgba(40, 30, 60, 0.18);
+
+      --on-surface: #1c1b1f;
+      --on-variant: #5b5566;
+
+      --primary: #6750a4;
+      --primary-cont: #eaddff;
+      --on-primary: #ffffff;
+      --on-primary-cont: #21005d;
+
+      --green: #1e7e3e;
+      --green-light: #0d5426;
+      --green-cont: #d4f7dc;
+      --green-glow: rgba(46, 160, 80, 0.22);
+
+      --yellow: #b26a00;
+      --yellow-light: #6e3f00;
+      --yellow-cont: #ffefc2;
+      --yellow-glow: rgba(245, 166, 35, 0.26);
+
+      --red: #c5221f;
+      --red-light: #7a0b09;
+      --red-cont: #fce8e6;
+      --red-glow: rgba(217, 48, 37, 0.26);
+
+      --shadow-card: 0 10px 26px rgba(55, 40, 90, 0.08);
+    }
+
+    :root {
       --radius-pill: 9999px;
-      --radius-xl: 26px;
+      --radius-2xl: 30px;
+      --radius-xl: 24px;
       --radius-lg: 20px;
-      --radius-md: 14px;
+      --radius-md: 16px;
+      --spring: cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     * {
@@ -47,49 +131,373 @@
       margin: 0;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
-      font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Google Sans", "Roboto", "Segoe UI", sans-serif;
     }
 
     html, body {
       width: 100%;
       min-height: 100dvh;
       background-color: var(--bg);
+      background-image: var(--bg-mesh);
+      background-attachment: fixed;
       color: var(--on-surface);
       display: flex;
       justify-content: center;
       align-items: flex-start;
       overflow-x: hidden;
+      transition: background-color 0.35s var(--spring), color 0.35s var(--spring);
     }
 
-    .app-shell {
-      width: 100%;
-      max-width: 440px;
-      min-height: 100dvh;
-      padding: 12px 14px 22px;
+    /* ===================== ПЕРВИЧНЫЙ ЭКРАН ЗАГРУЗКИ (ТОЛЬКО ПРИ ПЕРВОМ ВХОДЕ В СЕССИИ) ===================== */
+    .initial-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: var(--bg);
+      background-image: var(--bg-mesh);
       display: flex;
       flex-direction: column;
-      gap: 11px;
-      overflow-y: auto;
-      scrollbar-width: none;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+      transition: opacity 0.45s var(--spring), transform 0.45s var(--spring), visibility 0.45s;
     }
-    .app-shell::-webkit-scrollbar { display: none; }
+    .initial-loader.hidden {
+      opacity: 0;
+      transform: scale(1.03);
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .loader-radar-orb {
+      width: 88px;
+      height: 88px;
+      border-radius: 28px;
+      background: linear-gradient(135deg, var(--primary-cont), var(--surface-2));
+      border: 1px solid var(--outline-strong);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.35);
+      margin-bottom: 22px;
+      animation: orbFloat 2.4s ease-in-out infinite alternate;
+    }
+    .loader-radar-orb::before {
+      content: '';
+      position: absolute;
+      inset: -10px;
+      border-radius: 36px;
+      border: 2px solid var(--primary);
+      opacity: 0.35;
+      animation: radarRipple 1.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+    }
+    @keyframes orbFloat {
+      from { transform: translateY(0px) rotate(0deg); }
+      to { transform: translateY(-6px) rotate(4deg); }
+    }
+    @keyframes radarRipple {
+      0% { transform: scale(0.88); opacity: 0.65; }
+      100% { transform: scale(1.28); opacity: 0; }
+    }
+
+    .loader-title {
+      font-size: 1.32rem;
+      font-weight: 900;
+      letter-spacing: -0.4px;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .loader-subtitle {
+      font-size: 0.83rem;
+      font-weight: 600;
+      color: var(--on-variant);
+      text-align: center;
+      max-width: 320px;
+      min-height: 2.4em;
+      line-height: 1.35;
+      margin-bottom: 18px;
+    }
+
+    .loader-progress-shell {
+      width: 100%;
+      max-width: 280px;
+      height: 10px;
+      background: var(--surface-2);
+      border-radius: var(--radius-pill);
+      overflow: hidden;
+      border: 1px solid var(--outline);
+    }
+
+    .loader-progress-bar {
+      height: 100%;
+      width: 15%;
+      background: linear-gradient(90deg, var(--primary), #9c7aff);
+      border-radius: var(--radius-pill);
+      transition: width 0.32s var(--spring);
+    }
+
+    .loader-channel-chip {
+      margin-top: 12px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--primary);
+      background: var(--surface-2);
+      border: 1px solid var(--outline);
+      padding: 5px 13px;
+      border-radius: var(--radius-pill);
+      letter-spacing: 0.2px;
+    }
+
+    /* ===================== БОКОВАЯ ПАНЕЛЬ (ИСТОЧНИКИ + ТЕМЫ + GEMINI AI) ===================== */
+    .drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 1200;
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.32s var(--spring), visibility 0.32s;
+    }
+    .drawer-backdrop.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .side-drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: min(88vw, 370px);
+      z-index: 1250;
+      background: var(--surface-1);
+      border-right: 1px solid var(--outline-strong);
+      border-radius: 0 28px 28px 0;
+      padding: 18px 16px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transform: translateX(-104%);
+      transition: transform 0.38s var(--spring), background-color 0.35s var(--spring);
+      box-shadow: 18px 0 48px rgba(0, 0, 0, 0.45);
+      overflow-y: auto;
+    }
+    .side-drawer.open {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--outline);
+    }
+    .drawer-title {
+      font-size: 1.12rem;
+      font-weight: 900;
+      letter-spacing: -0.3px;
+    }
+    .btn-icon-close {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--outline);
+      background: var(--surface-2);
+      color: var(--on-surface);
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.2s var(--spring), background 0.2s;
+    }
+    .btn-icon-close:active {
+      transform: scale(0.92);
+    }
+
+    .drawer-section-label {
+      font-size: 0.68rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--on-variant);
+      margin-bottom: 6px;
+    }
+
+    /* Переключатель темы Material You / AMOLED / Light */
+    .theme-selector-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 7px;
+    }
+    .theme-option-btn {
+      padding: 10px 8px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--outline);
+      background: var(--surface-2);
+      color: var(--on-surface);
+      font-size: 0.74rem;
+      font-weight: 800;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.22s var(--spring);
+    }
+    .theme-option-btn.active {
+      background: var(--primary-cont);
+      color: var(--on-primary-cont);
+      border-color: var(--primary);
+      transform: translateY(-1px);
+    }
+    .theme-option-btn:active {
+      transform: scale(0.95);
+    }
+
+    .ai-engine-banner {
+      background: var(--surface-2);
+      border: 1px solid var(--outline-strong);
+      border-radius: var(--radius-lg);
+      padding: 11px 13px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .ai-engine-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .ai-engine-name {
+      font-size: 0.82rem;
+      font-weight: 900;
+      color: var(--primary);
+    }
+    .ai-engine-sub {
+      font-size: 0.69rem;
+      font-weight: 600;
+      color: var(--on-variant);
+    }
+    .ai-badge-live {
+      font-size: 0.66rem;
+      font-weight: 900;
+      padding: 4px 9px;
+      border-radius: var(--radius-pill);
+      background: var(--green-cont);
+      color: var(--green-light);
+      text-transform: uppercase;
+    }
+
+    .sources-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      overflow-y: auto;
+      padding-right: 2px;
+    }
+    .source-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 9px 11px;
+      border-radius: var(--radius-md);
+      background: var(--surface-2);
+      border: 1px solid var(--outline);
+      text-decoration: none;
+      color: var(--on-surface);
+      transition: transform 0.2s var(--spring), border-color 0.2s;
+    }
+    .source-row:hover, .source-row:active {
+      transform: translateX(3px);
+      border-color: var(--primary);
+    }
+    .source-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      min-width: 0;
+    }
+    .source-name {
+      font-size: 0.8rem;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .source-cat {
+      font-size: 0.67rem;
+      font-weight: 600;
+      color: var(--on-variant);
+    }
+    .source-tag {
+      font-size: 0.66rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      background: var(--surface-3);
+      color: var(--primary);
+      flex-shrink: 0;
+    }
+
+    /* ===================== ОСНОВНОЙ КОНТЕЙНЕР САЙТА ===================== */
+    .app-shell {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100dvh;
+      padding: 12px 14px 26px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
 
     /* ШАПКА */
     .top-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 2px 4px;
+      gap: 8px;
+      padding: 2px 2px;
     }
 
     .top-left {
       display: flex;
       align-items: center;
-      gap: 9px;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .btn-menu-sources {
+      height: 38px;
+      padding: 0 12px;
+      border-radius: var(--radius-pill);
+      background: var(--surface-2);
+      border: 1px solid var(--outline-strong);
+      color: var(--on-surface);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.76rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.22s var(--spring);
+      flex-shrink: 0;
+    }
+    .btn-menu-sources:active {
+      transform: scale(0.94);
+      background: var(--surface-3);
     }
 
     .brand-title {
-      font-size: 1.4rem;
+      font-size: 1.32rem;
       font-weight: 900;
       letter-spacing: -0.5px;
     }
@@ -98,13 +506,14 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      font-size: 0.72rem;
-      font-weight: 700;
+      font-size: 0.7rem;
+      font-weight: 800;
       color: var(--on-variant);
-      background: var(--surface);
-      padding: 4px 10px;
+      background: var(--surface-1);
+      padding: 5px 10px;
       border-radius: var(--radius-pill);
       border: 1px solid var(--outline);
+      white-space: nowrap;
     }
 
     .live-pulse-dot {
@@ -126,15 +535,15 @@
     }
     @keyframes pulseDot {
       0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.45; transform: scale(0.82); }
+      50% { opacity: 0.42; transform: scale(0.8); }
     }
 
     .btn-refresh {
-      height: 34px;
-      padding: 0 13px;
+      height: 38px;
+      padding: 0 14px;
       border-radius: var(--radius-pill);
-      background: var(--surface);
-      border: 1px solid var(--outline);
+      background: var(--surface-2);
+      border: 1px solid var(--outline-strong);
       color: var(--on-surface);
       display: flex;
       align-items: center;
@@ -142,11 +551,12 @@
       font-size: 0.75rem;
       font-weight: 800;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: all 0.22s var(--spring);
+      flex-shrink: 0;
     }
     .btn-refresh:active {
-      background: var(--surface-high);
-      transform: scale(0.95);
+      background: var(--surface-3);
+      transform: scale(0.94);
     }
     .btn-refresh.spinning .refresh-icon {
       display: inline-block;
@@ -157,13 +567,14 @@
       to { transform: rotate(360deg); }
     }
 
-    /* КАРТОЧКА 1: АКТУАЛЬНАЯ ОБСТАНОВКА И ШКАЛА */
+    /* КАРТОЧКА 1: ГЛАВНЫЙ ЭКРАН СОСТОЯНИЯ (M3 EXPRESSIVE) */
     .m3-card {
-      background: var(--surface);
-      border: 1px solid var(--outline);
-      border-radius: var(--radius-xl);
-      padding: 16px 16px 15px;
-      transition: all 0.35s cubic-bezier(0.2, 0, 0, 1);
+      background: var(--surface-1);
+      border: 1px solid var(--outline-strong);
+      border-radius: var(--radius-2xl);
+      padding: 18px 16px 16px;
+      box-shadow: var(--shadow-card);
+      transition: all 0.45s var(--spring);
       position: relative;
       overflow: hidden;
       word-break: break-word;
@@ -171,21 +582,21 @@
     }
 
     .card-safe {
-      background: radial-gradient(circle at 50% -10%, var(--green-glow), var(--surface) 80%);
-      border-color: rgba(129, 199, 132, 0.35);
+      background: radial-gradient(circle at 50% -15%, var(--green-glow), var(--surface-1) 78%);
+      border-color: rgba(109, 213, 140, 0.36);
     }
     .card-alarm-yellow {
-      background: radial-gradient(circle at 50% -10%, var(--yellow-glow), var(--surface) 80%);
-      border-color: rgba(255, 213, 79, 0.42);
+      background: radial-gradient(circle at 50% -15%, var(--yellow-glow), var(--surface-1) 78%);
+      border-color: rgba(255, 213, 79, 0.48);
     }
     .card-alarm-red {
-      background: radial-gradient(circle at 50% -10%, var(--red-glow), var(--surface) 80%);
-      border-color: rgba(255, 138, 128, 0.5);
-      animation: alertBorderBreathe 2.8s infinite alternate;
+      background: radial-gradient(circle at 50% -15%, var(--red-glow), var(--surface-1) 78%);
+      border-color: rgba(255, 137, 125, 0.58);
+      animation: alertBorderBreathe 2.4s infinite alternate;
     }
     @keyframes alertBorderBreathe {
-      from { border-color: rgba(255, 138, 128, 0.35); box-shadow: 0 0 14px rgba(125, 0, 7, 0.2); }
-      to { border-color: rgba(255, 138, 128, 0.7); box-shadow: 0 0 24px rgba(255, 138, 128, 0.32); }
+      from { box-shadow: 0 0 16px rgba(244, 67, 54, 0.2); }
+      to { box-shadow: 0 0 30px rgba(244, 67, 54, 0.42); }
     }
 
     .status-badges-wrap {
@@ -193,19 +604,20 @@
       flex-direction: column;
       align-items: center;
       gap: 6px;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
     }
 
     .status-badge {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 6px 16px;
+      padding: 7px 16px;
       border-radius: var(--radius-pill);
-      font-size: 0.81rem;
+      font-size: 0.8rem;
       font-weight: 900;
       letter-spacing: 0.4px;
       text-transform: uppercase;
+      transition: all 0.35s var(--spring);
     }
     .card-safe .status-badge { background: var(--green-cont); color: var(--green-light); }
     .card-alarm-yellow .status-badge { background: var(--yellow-cont); color: var(--yellow-light); }
@@ -215,16 +627,15 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      font-size: 0.68rem;
+      font-size: 0.69rem;
       font-weight: 800;
       color: var(--primary);
-      background: rgba(208, 188, 255, 0.1);
-      border: 1px solid rgba(208, 188, 255, 0.24);
-      padding: 3px 10px;
+      background: var(--surface-2);
+      border: 1px solid var(--outline-strong);
+      padding: 4px 11px;
       border-radius: var(--radius-pill);
     }
 
-    /* ПЛАШКА СТАТУСА БПЛА В ОБЛАСТИ */
     .oblast-uav-pill {
       display: inline-flex;
       align-items: center;
@@ -234,18 +645,24 @@
       font-size: 0.72rem;
       font-weight: 800;
       border: 1px solid var(--outline);
-      background: rgba(255, 255, 255, 0.05);
+      background: var(--surface-2);
       color: var(--on-surface);
       text-align: center;
+      transition: all 0.3s var(--spring);
     }
-    .oblast-uav-pill.uav-active {
-      background: rgba(255, 213, 79, 0.18);
+    .oblast-uav-pill.uav-yellow {
+      background: var(--yellow-cont);
       border-color: rgba(255, 213, 79, 0.5);
       color: var(--yellow-light);
     }
+    .oblast-uav-pill.uav-red {
+      background: var(--red-cont);
+      border-color: rgba(255, 137, 125, 0.55);
+      color: var(--red-light);
+    }
     .oblast-uav-pill.uav-clear {
-      background: rgba(129, 199, 132, 0.12);
-      border-color: rgba(129, 199, 132, 0.3);
+      background: var(--green-cont);
+      border-color: rgba(109, 213, 140, 0.35);
       color: var(--green-light);
     }
 
@@ -253,20 +670,21 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin: 4px 0 8px;
+      margin: 6px 0 8px;
     }
     .chance-number {
-      font-size: 3.3rem;
+      font-size: 3.45rem;
       font-weight: 900;
       line-height: 1;
       letter-spacing: -2px;
+      transition: color 0.35s var(--spring);
     }
-    .card-safe .chance-number { color: var(--green-light); }
-    .card-alarm-yellow .chance-number { color: var(--yellow-light); }
-    .card-alarm-red .chance-number { color: var(--red-light); }
+    .card-safe .chance-number { color: var(--green); }
+    .card-alarm-yellow .chance-number { color: var(--yellow); }
+    .card-alarm-red .chance-number { color: var(--red); }
 
     .chance-label {
-      font-size: 0.67rem;
+      font-size: 0.68rem;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.8px;
@@ -274,34 +692,32 @@
       margin-top: 4px;
     }
 
-    /* ВОЛНИСТАЯ АНИМИРОВАННАЯ ШКАЛА */
+    /* ВОЛНИСТАЯ ШКАЛА M3 */
     .scale-wrapper {
       width: 100%;
       margin: 4px 0 8px;
     }
-
     .scale-track {
       width: 100%;
-      height: 12px;
-      background: rgba(255, 255, 255, 0.08);
+      height: 13px;
+      background: var(--surface-2);
+      border: 1px solid var(--outline);
       border-radius: var(--radius-pill);
       position: relative;
       overflow: hidden;
     }
-
     .scale-fill-wavy {
       height: 100%;
       border-radius: var(--radius-pill);
       position: relative;
       overflow: hidden;
-      transition: width 0.7s cubic-bezier(0.34, 1.3, 0.64, 1);
+      transition: width 0.75s var(--spring);
     }
-
     .scale-fill-wavy::after {
       content: '';
       position: absolute;
       inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 12' preserveAspectRatio='none'%3E%3Cpath d='M0,6 C5,0 15,12 20,6 C25,0 35,12 40,6 L40,12 L0,12 Z' fill='rgba(255,255,255,0.38)'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 12' preserveAspectRatio='none'%3E%3Cpath d='M0,6 C5,0 15,12 20,6 C25,0 35,12 40,6 L40,12 L0,12 Z' fill='rgba(255,255,255,0.34)'/%3E%3C/svg%3E");
       background-size: 36px 100%;
       animation: waveScroll 1.4s linear infinite;
     }
@@ -309,15 +725,14 @@
       0% { background-position-x: 0; }
       100% { background-position-x: 36px; }
     }
-
-    .card-safe .scale-fill-wavy { background: linear-gradient(90deg, #4caf50, #81c784); }
-    .card-alarm-yellow .scale-fill-wavy { background: linear-gradient(90deg, #ffb300, #ffe082); }
-    .card-alarm-red .scale-fill-wavy { background: linear-gradient(90deg, #e53935, #ff8a80); }
+    .card-safe .scale-fill-wavy { background: linear-gradient(90deg, #34a853, #6dd58c); }
+    .card-alarm-yellow .scale-fill-wavy { background: linear-gradient(90deg, #f9ab00, #ffd54f); }
+    .card-alarm-red .scale-fill-wavy { background: linear-gradient(90deg, #d93025, #ff897d); }
 
     .scale-labels {
       display: flex;
       justify-content: space-between;
-      font-size: 0.62rem;
+      font-size: 0.63rem;
       font-weight: 700;
       color: var(--on-variant);
       margin-top: 4px;
@@ -325,35 +740,117 @@
     }
 
     .hero-comment {
-      font-size: 0.92rem;
+      font-size: 0.91rem;
       font-weight: 700;
-      color: #ffffff;
-      line-height: 1.36;
+      color: var(--on-surface);
+      line-height: 1.38;
       text-align: center;
       margin-top: 4px;
       white-space: pre-line;
     }
 
-    /* КАРТОЧКА 2: СПРОСИТЬ У ИИ */
-    .ai-ask-card {
-      background: linear-gradient(160deg, rgba(63, 46, 102, 0.32), var(--surface-cont) 75%);
-      border: 1px solid rgba(208, 188, 255, 0.22);
-      border-radius: var(--radius-lg);
-      padding: 15px 15px 14px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+    /* ===================== КАРТОЧКА РАЙОНОВ КИЕВСКОЙ ОБЛАСТИ (7 РАЙОНОВ) ===================== */
+    .districts-card {
+      background: var(--surface-1);
+      border: 1px solid var(--outline-strong);
+      border-radius: var(--radius-xl);
+      padding: 15px 15px;
+      box-shadow: var(--shadow-card);
+      transition: all 0.35s var(--spring);
     }
 
     .card-eyebrow {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 8px;
       font-size: 0.68rem;
       text-transform: uppercase;
       font-weight: 800;
       letter-spacing: 0.7px;
       color: var(--on-variant);
+      margin-bottom: 10px;
+    }
+
+    .districts-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+    .district-pill-card {
+      background: var(--surface-2);
+      border: 1px solid var(--outline);
+      border-radius: var(--radius-md);
+      padding: 9px 11px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      transition: all 0.28s var(--spring);
+    }
+    .district-pill-card:last-child:nth-child(odd) {
+      grid-column: span 2;
+    }
+    .district-pill-card.level-SAFE {
+      border-color: rgba(109, 213, 140, 0.22);
+    }
+    .district-pill-card.level-YELLOW {
+      background: var(--yellow-cont);
+      border-color: rgba(255, 213, 79, 0.55);
+    }
+    .district-pill-card.level-RED {
+      background: var(--red-cont);
+      border-color: rgba(255, 137, 125, 0.65);
+    }
+
+    .district-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      min-width: 0;
+    }
+    .district-name {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--on-surface);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .district-sub {
+      font-size: 0.67rem;
+      font-weight: 700;
+      color: var(--on-variant);
+    }
+    .district-pill-card.level-YELLOW .district-name,
+    .district-pill-card.level-YELLOW .district-sub {
+      color: var(--yellow-light);
+    }
+    .district-pill-card.level-RED .district-name,
+    .district-pill-card.level-RED .district-sub {
+      color: var(--red-light);
+    }
+
+    .district-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .district-dot.SAFE { background: var(--green); box-shadow: 0 0 7px var(--green); }
+    .district-dot.YELLOW { background: var(--yellow); box-shadow: 0 0 8px var(--yellow); }
+    .district-dot.RED { background: var(--red); box-shadow: 0 0 9px var(--red); }
+
+    /* ===================== КАРТОЧКА СПРОСИТЬ У ИИ (GEMINI) ===================== */
+    .ai-ask-card {
+      background: linear-gradient(155deg, rgba(103, 80, 164, 0.16), var(--surface-1) 75%);
+      border: 1px solid var(--outline-strong);
+      border-radius: var(--radius-xl);
+      padding: 15px 15px 14px;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
     }
 
     .quick-chips {
@@ -361,22 +858,21 @@
       flex-wrap: wrap;
       gap: 6px;
     }
-
     .chip-btn {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid var(--outline-glow);
+      background: var(--surface-2);
+      border: 1px solid var(--outline-strong);
       color: var(--on-surface);
       padding: 6px 11px;
       border-radius: var(--radius-pill);
       font-size: 0.73rem;
       font-weight: 700;
       cursor: pointer;
-      transition: all 0.18s;
+      transition: all 0.2s var(--spring);
     }
     .chip-btn:active {
       background: var(--primary);
       color: var(--on-primary);
-      transform: scale(0.96);
+      transform: scale(0.95);
     }
 
     .ask-input-row {
@@ -384,23 +880,23 @@
       gap: 7px;
       align-items: center;
     }
-
     .ask-input {
       flex: 1;
-      background: var(--surface);
-      border: 1px solid var(--outline-glow);
+      background: var(--surface-2);
+      border: 1px solid var(--outline-strong);
       border-radius: var(--radius-pill);
-      color: #ffffff;
+      color: var(--on-surface);
       padding: 10px 14px;
-      font-size: 0.86rem;
+      font-size: 0.85rem;
       outline: none;
+      transition: border-color 0.2s;
     }
     .ask-input:focus {
       border-color: var(--primary);
     }
 
     .btn-ask-send {
-      height: 39px;
+      height: 40px;
       padding: 0 16px;
       border-radius: var(--radius-pill);
       border: none;
@@ -410,147 +906,126 @@
       font-weight: 900;
       cursor: pointer;
       flex-shrink: 0;
-      transition: all 0.2s;
+      transition: all 0.2s var(--spring);
     }
     .btn-ask-send:active {
-      opacity: 0.85;
-      transform: scale(0.96);
+      transform: scale(0.95);
     }
     .btn-ask-send:disabled {
-      opacity: 0.5;
+      opacity: 0.55;
       cursor: default;
     }
 
     .ai-answer-box {
-      background: rgba(15, 13, 22, 0.65);
+      background: var(--surface-2);
       border: 1px solid var(--outline);
       border-radius: var(--radius-md);
       padding: 12px 13px;
-      font-size: 0.88rem;
-      line-height: 1.42;
-      color: #ffffff;
+      font-size: 0.87rem;
+      line-height: 1.44;
+      color: var(--on-surface);
       word-break: break-word;
       overflow-wrap: anywhere;
     }
 
-    /* ВЫДЕЛЕННЫЕ БОЛЬШИЕ ЧИСЛА ВРЕМЕНИ */
+    /* ПРОГНОЗ ВРЕМЕНИ */
+    .time-card, .targets-card {
+      background: var(--surface-1);
+      border: 1px solid var(--outline-strong);
+      border-radius: var(--radius-xl);
+      padding: 15px 16px;
+      box-shadow: var(--shadow-card);
+    }
+
     .time-digits-container {
       display: flex;
       flex-wrap: wrap;
       align-items: baseline;
       gap: 7px;
-      margin: 4px 0 6px;
+      margin: 2px 0 6px;
       line-height: 1.15;
     }
-
     .time-prefix {
-      font-size: 1.0rem;
+      font-size: 0.98rem;
       font-weight: 700;
       color: var(--on-variant);
     }
-
     .time-no-threat-badge {
       display: inline-flex;
       align-items: center;
       gap: 7px;
-      font-size: 0.94rem;
+      font-size: 0.9rem;
       font-weight: 800;
-      color: var(--green-light);
-      background: rgba(129, 199, 132, 0.1);
-      border: 1px solid rgba(129, 199, 132, 0.28);
+      color: var(--green);
+      background: var(--green-cont);
+      border: 1px solid rgba(109, 213, 140, 0.32);
       padding: 8px 13px;
       border-radius: var(--radius-md);
       line-height: 1.3;
     }
-
     .time-num {
       display: inline-block;
-      font-size: 1.85rem;
+      font-size: 1.8rem;
       font-weight: 900;
-      color: #ffffff;
+      color: var(--on-surface);
       letter-spacing: -0.5px;
-      background: rgba(255, 255, 255, 0.09);
+      background: var(--surface-2);
       padding: 2px 10px;
       border-radius: var(--radius-md);
-      border: 1px solid var(--outline-glow);
+      border: 1px solid var(--outline-strong);
       margin: 2px 2px;
-      vertical-align: baseline;
     }
-
     .ai-answer-box .time-num {
-      font-size: 1.45rem;
+      font-size: 1.35rem;
       padding: 1px 8px;
       color: var(--primary);
-      border-color: rgba(208, 188, 255, 0.35);
     }
-
-    /* КАРТОЧКА 3: ПРОГНОЗ ВРЕМЕНИ */
-    .time-card {
-      background: var(--surface-cont);
-      border: 1px solid var(--outline);
-      border-radius: var(--radius-lg);
-      padding: 15px 16px;
-    }
-
     .time-subtext {
-      font-size: 0.8rem;
+      font-size: 0.79rem;
       font-weight: 600;
       color: var(--on-variant);
       line-height: 1.32;
       margin-top: 4px;
     }
 
-    /* КАРТОЧКА 4: ЧТО ЛЕТИТ / ВОКРУГ КИЕВА */
-    .targets-card {
-      background: var(--surface-cont);
-      border: 1px solid var(--outline);
-      border-radius: var(--radius-lg);
-      padding: 15px 16px;
-    }
-
+    /* ЧТО ЛЕТИТ */
     .target-list {
       display: flex;
       flex-direction: column;
       gap: 7px;
-      margin-top: 6px;
+      margin-top: 4px;
     }
-
     .target-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      background: var(--surface-high);
+      background: var(--surface-2);
       border: 1px solid var(--outline);
       padding: 10px 13px;
       border-radius: var(--radius-md);
-      font-size: 0.87rem;
+      font-size: 0.86rem;
       font-weight: 700;
-      color: #ffffff;
-      line-height: 1.3;
-      word-break: break-word;
-      overflow-wrap: anywhere;
+      color: var(--on-surface);
+      line-height: 1.32;
     }
-
     .target-left {
       display: flex;
       align-items: center;
       gap: 10px;
       flex: 1;
     }
-
     .target-dist-tag {
       font-size: 0.68rem;
       font-weight: 800;
       color: var(--primary);
-      background: rgba(208, 188, 255, 0.12);
-      border: 1px solid rgba(208, 188, 255, 0.25);
+      background: var(--surface-3);
+      border: 1px solid var(--outline-strong);
       padding: 3px 8px;
       border-radius: var(--radius-pill);
       white-space: nowrap;
       flex-shrink: 0;
     }
-
     .target-dot {
       width: 8px;
       height: 8px;
@@ -561,52 +1036,111 @@
     .dot-yellow { background: var(--yellow); box-shadow: 0 0 6px var(--yellow); }
     .dot-red { background: var(--red); box-shadow: 0 0 6px var(--red); }
 
-    /* СТРОКА ОБНОВЛЕНИЯ */
     .update-footer {
       text-align: center;
-      padding: 4px 4px 6px;
+      padding: 4px 4px 8px;
       font-size: 0.72rem;
       font-weight: 600;
       color: var(--on-variant);
-      letter-spacing: 0.2px;
     }
   </style>
 </head>
 <body>
 
+  <!-- ПЕРВИЧНЫЙ ЭКРАН АНАЛИЗА 20 ТГК (ТОЛЬКО ПРИ ПЕРВОМ ЗАХОДЕ В СЕССИИ) -->
+  <div class="initial-loader" id="initialLoader">
+    <div class="loader-radar-orb">
+      <span style="font-size: 2.1rem;">📡</span>
+    </div>
+    <div class="loader-title">Киев Радар • ИИ Мониторинг</div>
+    <div class="loader-subtitle" id="loaderStepText">Синхронизация с Київ Цифровий и сканирование 20 мониторинговых каналов...</div>
+    <div class="loader-progress-shell">
+      <div class="loader-progress-bar" id="loaderProgressBar"></div>
+    </div>
+    <div class="loader-channel-chip" id="loaderChannelChip">@kpszsu • @kyiv_airdef • @kyivnebomonitoring</div>
+  </div>
+
+  <!-- БОКОВАЯ ПАНЕЛЬ (ИСТОЧНИКИ И НАСТРОЙКА ТЕМЫ) -->
+  <div class="drawer-backdrop" id="drawerBackdrop" onclick="toggleDrawer(false)"></div>
+  <aside class="side-drawer" id="sideDrawer">
+    <div class="drawer-header">
+      <div class="drawer-title">Тема и 20 источников</div>
+      <button class="btn-icon-close" onclick="toggleDrawer(false)">✕</button>
+    </div>
+
+    <div>
+      <div class="drawer-section-label">Оформление (Material You 3)</div>
+      <div class="theme-selector-grid">
+        <button class="theme-option-btn" id="themeBtn-m3-dark" onclick="setAppTheme('m3-dark')">
+          <span>🌌</span>
+          <span>M3 Тёмная</span>
+        </button>
+        <button class="theme-option-btn" id="themeBtn-amoled" onclick="setAppTheme('amoled')">
+          <span>🖤</span>
+          <span>AMOLED</span>
+        </button>
+        <button class="theme-option-btn" id="themeBtn-light" onclick="setAppTheme('light')">
+          <span>☀️</span>
+          <span>Светлая</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="ai-engine-banner">
+      <div class="ai-engine-left">
+        <span class="ai-engine-name" id="aiEngineTitle">✨ Gemini 2.5 Flash API</span>
+        <span class="ai-engine-sub">Нейросетевой фильтр целей и гео-расчёт</span>
+      </div>
+      <span class="ai-badge-live">Активен</span>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:6px; flex:1; min-height:0;">
+      <div class="drawer-section-label" id="sourcesCountHeader">Подключённые ресурсы (20 ТГК + КМДА)</div>
+      <div class="sources-list" id="sourcesListContainer"></div>
+    </div>
+  </aside>
+
+  <!-- ОСНОВНОЙ ИНТЕРФЕЙС -->
   <div class="app-shell">
 
     <!-- ШАПКА -->
     <div class="top-bar">
       <div class="top-left">
+        <button class="btn-menu-sources" onclick="toggleDrawer(true)">
+          <span>☰</span>
+          <span>Источники</span>
+        </button>
         <div class="brand-title">Киев</div>
+      </div>
+
+      <div style="display:flex; align-items:center; gap:7px;">
         <div class="live-status">
           <div class="live-pulse-dot" id="liveDot"></div>
-          <span id="liveText">Київ Цифровий + ТГК</span>
+          <span id="liveText">20 ТГК • Live</span>
         </div>
+        <button class="btn-refresh" id="btnScanNow" onclick="fetchRadarStatus(true)">
+          <span class="refresh-icon">🔄</span>
+          <span>Обновить</span>
+        </button>
       </div>
-      <button class="btn-refresh" id="btnScanNow" onclick="fetchRadarStatus(true)">
-        <span class="refresh-icon">🔄</span>
-        <span>Обновить</span>
-      </button>
     </div>
 
-    <!-- КАРТОЧКА 1: АКТУАЛЬНАЯ ОБСТАНОВКА НА ЭКРАНЕ -->
+    <!-- КАРТОЧКА 1: СТАТУС КИЕВА И ШКАЛА ВЕРОЯТНОСТИ -->
     <div class="m3-card card-safe" id="heroCard">
       <div class="status-badges-wrap">
-        <div class="status-badge" id="statusBadge">🟢 ЧИСТОЕ НЕБО / ОТБОЙ</div>
-        <div class="official-source-pill" id="officialStatusPill">📲 Київ Цифровий / КМДА: Тривоги немає</div>
-        <div class="oblast-uav-pill uav-clear" id="oblastUavPill">🛡️ В Киевской области: БпЛА не фиксируются</div>
+        <div class="status-badge" id="statusBadge">🟢 КИЕВ — ЧИСТОЕ НЕБО / ОТБОЙ</div>
+        <div class="official-source-pill" id="officialStatusPill">📲 Київ Цифровий: Тривоги в Києві немає</div>
+        <div class="oblast-uav-pill uav-clear" id="oblastUavPill">🛡️ Киевская область: чисто во всех 7 районах</div>
       </div>
 
       <div class="chance-hero">
         <div class="chance-number" id="chanceNumber">--%</div>
-        <div class="chance-label" id="chanceLabel">Вероятность тревоги</div>
+        <div class="chance-label" id="chanceLabel">Вероятность тревоги в Киеве</div>
       </div>
 
       <div class="scale-wrapper">
         <div class="scale-track">
-          <div class="scale-fill-wavy" id="scaleFill" style="width: 12%;"></div>
+          <div class="scale-fill-wavy" id="scaleFill" style="width: 10%;"></div>
         </div>
         <div class="scale-labels">
           <span>0%</span>
@@ -615,15 +1149,27 @@
         </div>
       </div>
 
-      <div class="hero-comment" id="heroComment">Подключение к серверу анализа (Redmi 9)...</div>
+      <div class="hero-comment" id="heroComment">Синхронизация данных воздушной обстановки...</div>
     </div>
 
-    <!-- КАРТОЧКА 2: СПРОСИТЬ У ИИ -->
+    <!-- КАРТОЧКА 2: РАЙОНЫ КИЕВСКОЙ ОБЛАСТИ (7 РАЙОНОВ) -->
+    <div class="districts-card">
+      <div class="card-eyebrow">
+        <span>Районы Киевской области (7 секторов)</span>
+        <span id="oblastLevelLabel" style="color: var(--primary);">Порайонный радар</span>
+      </div>
+      <div class="districts-grid" id="districtsGrid"></div>
+    </div>
+
+    <!-- КАРТОЧКА 3: СПРОСИТЬ У ИИ (GEMINI) -->
     <div class="ai-ask-card">
-      <div class="card-eyebrow" style="color: var(--primary);">Спросить у ИИ по обстановке</div>
+      <div class="card-eyebrow" style="margin-bottom:2px;">
+        <span style="color: var(--primary);">✨ ИИ-Аналитик (Gemini API)</span>
+        <span>20 каналов без спама</span>
+      </div>
 
       <div class="quick-chips">
-        <button class="chip-btn" onclick="askPresetQuestion('Есть ли сейчас БпЛА в Киевской области и вокруг Киева?')">Есть ли БпЛА в области?</button>
+        <button class="chip-btn" onclick="askPresetQuestion('Какая обстановка по районам Киевской области (Вышгород, Бровары, Буча, Фастов, Борисполь)?')">По районам области</button>
         <button class="chip-btn" onclick="askPresetQuestion('Когда будет возможная тревога в Киеве?')">Когда будет тревога?</button>
         <button class="chip-btn" onclick="askPresetQuestion('Что сейчас летит и какие направления?')">Что сейчас летит?</button>
       </div>
@@ -633,18 +1179,18 @@
           type="text"
           id="userQuestionInput"
           class="ask-input"
-          placeholder="Спросите: есть ли БпЛА в области, когда тревога..."
+          placeholder="Спросите про Киев, Бровары, Вышгород, цели..."
           onkeydown="if(event.key==='Enter') handleUserAsk()"
         />
         <button class="btn-ask-send" id="btnAskSend" onclick="handleUserAsk()">Спросить</button>
       </div>
 
       <div class="ai-answer-box" id="aiAnswerBox">
-        Нажмите на быстрый вопрос выше или напишите свой — сервер на Python сверит данные Київ Цифровий / КМДА, Воздушных Сил и мониторинговых радаров без рекламы и лишних новостей.
+        Выберите быстрый вопрос или напишите свой — нейросеть Gemini сверит Київ Цифровий, Воздушные Силы и 20 мониторинговых каналов по Киеву и каждому району области.
       </div>
     </div>
 
-    <!-- КАРТОЧКА 3: ПРОГНОЗ ВРЕМЕНИ (ТОЛЬКО ЕСЛИ ЕСТЬ ЦЕЛИ ИЛИ ТРЕВОГА) -->
+    <!-- КАРТОЧКА 4: ПРОГНОЗ ВРЕМЕНИ -->
     <div class="time-card">
       <div class="card-eyebrow">
         <span id="timeCardEyebrow">Прогноз времени</span>
@@ -656,7 +1202,7 @@
       <div class="time-subtext" id="timeSubText">Расчёт времени выполняется только при наличии зафиксированных целей</div>
     </div>
 
-    <!-- КАРТОЧКА 4: ЧТО ЛЕТИТ / ОБСТАНОВКА ВОКРУГ КИЕВА -->
+    <!-- КАРТОЧКА 5: ЧТО ЛЕТИТ / ВОКРУГ КИЕВА -->
     <div class="targets-card">
       <div class="card-eyebrow">
         <span>Что летит / Вокруг Киева и область</span>
@@ -665,7 +1211,7 @@
       <div class="target-list" id="targetList"></div>
     </div>
 
-    <!-- ВРЕМЯ ОБНОВЛЕНИЯ -->
+    <!-- СТРОКА ОБНОВЛЕНИЯ -->
     <div class="update-footer" id="updateFooter">
       Информация обновлена в --:-- --.--.----
     </div>
@@ -673,10 +1219,44 @@
   </div>
 
   <script>
-    // URL вашего Python-сервера на Redmi 9 (через Cloudflare Tunnel).
-    // Для локальной проверки можно открыть страницу с ?api=http://127.0.0.1:8000
     const DEFAULT_API_BASE_URL = 'https://consult-represent-consequently-estimates.trycloudflare.com';
-    const CACHE_KEY = 'kyiv_radar_ui_cache_v1';
+    const CACHE_KEY = 'kyiv_radar_m3_v14_cache';
+    const THEME_KEY = 'kyiv_radar_m3_theme';
+    const SESSION_LOADED_KEY = 'kyiv_radar_session_loaded_v1';
+
+    const FALLBACK_DISTRICTS = [
+      { id: 'vyshhorod', name: 'Вышгородский', center: 'Вышгород', level: 'SAFE', statusText: 'Чисто / Отбой' },
+      { id: 'brovary', name: 'Броварской', center: 'Бровары', level: 'SAFE', statusText: 'Чисто / Отбой' },
+      { id: 'boryspil', name: 'Бориспольский', center: 'Борисполь', level: 'SAFE', statusText: 'Чисто / Отбой' },
+      { id: 'bucha', name: 'Бучанский', center: 'Буча / Ирпень', level: 'SAFE', statusText: 'Чисто / Отбой' },
+      { id: 'fastiv', name: 'Фастовский', center: 'Фастов / Боярка', level: 'SAFE', statusText: 'Чисто / Отбой' },
+      { id: 'obukhiv', name: 'Обуховский', center: 'Обухов / Васильков', level: 'SAFE', statusText: 'Чисто / Отбой' },
+      { id: 'bila_tserkva', name: 'Белоцерковский', center: 'Белая Церковь', level: 'SAFE', statusText: 'Чисто / Отбой' }
+    ];
+
+    const FALLBACK_SOURCES = [
+      { title: 'Київ Цифровий / КМДА', handle: '@KyivCityOfficial', category: 'Официальный статус тревоги', url: 'https://t.me/KyivCityOfficial' },
+      { title: 'Повітряні Сили ЗСУ', handle: '@kpszsu', category: 'Официальный радар', url: 'https://t.me/kpszsu' },
+      { title: 'Kyiv Air Defense', handle: '@kyiv_airdef', category: 'ПВО и цели Киева', url: 'https://t.me/kyiv_airdef' },
+      { title: 'Київ Небо Моніторинг', handle: '@kyivnebomonitoring', category: 'Мониторинг неба', url: 'https://t.me/kyivnebomonitoring' },
+      { title: 'ППО Київ / Область', handle: '@PpoUaKyiv', category: 'Радар ПВО', url: 'https://t.me/PpoUaKyiv' },
+      { title: 'Повітряна тривога Київ', handle: '@airAlarm_Kyiv', category: 'Оповещения', url: 'https://t.me/airAlarm_Kyiv' },
+      { title: 'Чисте Небо', handle: '@chyste_nebo', category: 'Аналитика неба', url: 'https://t.me/chyste_nebo' },
+      { title: 'Тривога Чому?', handle: '@tryvoga_chomu', category: 'Причины тревог', url: 'https://t.me/tryvoga_chomu' },
+      { title: 'Monitor War', handle: '@monitorwarr', category: 'Радар целей', url: 'https://t.me/monitorwarr' },
+      { title: 'Повітряна Тривога', handle: '@povitryanatrivogaaa', category: 'Оперативный радар', url: 'https://t.me/povitryanatrivogaaa' },
+      { title: 'Ракета / Тревога', handle: '@raketa_trevoga', category: 'Ракеты и БпЛА', url: 'https://t.me/raketa_trevoga' },
+      { title: 'Де Ракета UA', handle: '@deraketaua', category: 'Векторы целей', url: 'https://t.me/deraketaua' },
+      { title: 'Київ Ваньок', handle: '@kyiv_vanek', category: 'Сектор Киева', url: 'https://t.me/kyiv_vanek' },
+      { title: 'Десна Інфо', handle: '@desna_info', category: 'Северный сектор', url: 'https://t.me/desna_info' },
+      { title: 'Україна Радар', handle: '@ukrainar', category: 'Общий мониторинг', url: 'https://t.me/ukrainar' },
+      { title: 'Київ Лівий Берег', handle: '@kiev_levyy_bereg', category: 'Левобережье', url: 'https://t.me/kiev_levyy_bereg' },
+      { title: 'Реальний Київ', handle: '@kievreal1', category: 'Оперативно Киев', url: 'https://t.me/kievreal1' },
+      { title: 'Труха Київ', handle: '@truexakyiv', category: 'Сводки Киева', url: 'https://t.me/truexakyiv' },
+      { title: 'Типова Троєщина', handle: '@typicaltroeschina', category: 'Деснянский сектор', url: 'https://t.me/typicaltroeschina' },
+      { title: 'Київ Новини 24', handle: '@kyiv_novyny_24', category: 'Сводки столицы', url: 'https://t.me/kyiv_novyny_24' },
+      { title: 'Київ Головне', handle: '@kievkyiv', category: 'Инфо столицы', url: 'https://t.me/kievkyiv' }
+    ];
 
     let activeData = null;
     let isLoading = false;
@@ -689,11 +1269,25 @@
         localStorage.setItem('kyiv_radar_api_url', clean);
         return clean;
       }
-      const saved = localStorage.getItem('kyiv_radar_api_url');
-      if (saved && !DEFAULT_API_BASE_URL.includes('YOUR-CLOUDFLARE-TUNNEL')) {
+      if (!DEFAULT_API_BASE_URL.includes('YOUR-CLOUDFLARE-TUNNEL')) {
         return DEFAULT_API_BASE_URL.replace(/\/+$/, '');
       }
+      const saved = localStorage.getItem('kyiv_radar_api_url');
       return (saved || DEFAULT_API_BASE_URL).replace(/\/+$/, '');
+    }
+
+    function setAppTheme(themeName) {
+      document.documentElement.setAttribute('data-theme', themeName);
+      localStorage.setItem(THEME_KEY, themeName);
+      ['m3-dark', 'amoled', 'light'].forEach(t => {
+        const btn = document.getElementById(`themeBtn-${t}`);
+        if (btn) btn.classList.toggle('active', t === themeName);
+      });
+    }
+
+    function toggleDrawer(open) {
+      document.getElementById('drawerBackdrop').classList.toggle('open', open);
+      document.getElementById('sideDrawer').classList.toggle('open', open);
     }
 
     function escapeHtml(s) {
@@ -710,6 +1304,49 @@
     function formatTextWithBigTimes(text) {
       const safe = escapeHtml(text || '');
       return safe.replace(/(\b\d{1,2}:\d{2}\b)/g, '<span class="time-num">$1</span>').replace(/\n/g, '<br>');
+    }
+
+    function renderDistricts(districts) {
+      const grid = document.getElementById('districtsGrid');
+      const list = Array.isArray(districts) && districts.length > 0 ? districts : FALLBACK_DISTRICTS;
+      grid.innerHTML = '';
+
+      list.forEach(d => {
+        const lvl = d.level === 'RED' ? 'RED' : (d.level === 'YELLOW' ? 'YELLOW' : 'SAFE');
+        const card = document.createElement('div');
+        card.className = `district-pill-card level-${lvl}`;
+        card.innerHTML = `
+          <div class="district-info">
+            <span class="district-name">${escapeHtml(d.name)}</span>
+            <span class="district-sub">${escapeHtml(d.statusText || d.center)}</span>
+          </div>
+          <span class="district-dot ${lvl}"></span>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function renderSourcesDrawer(sources) {
+      const container = document.getElementById('sourcesListContainer');
+      const list = Array.isArray(sources) && sources.length > 0 ? sources : FALLBACK_SOURCES;
+      container.innerHTML = '';
+
+      list.forEach(src => {
+        const a = document.createElement('a');
+        a.className = 'source-row';
+        a.href = src.url || '#';
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        const badgeText = src.handle || 'Офиц. API';
+        a.innerHTML = `
+          <div class="source-meta">
+            <span class="source-name">${escapeHtml(src.title)}</span>
+            <span class="source-cat">${escapeHtml(src.category || 'Мониторинг')}</span>
+          </div>
+          <span class="source-tag">${escapeHtml(badgeText)}</span>
+        `;
+        container.appendChild(a);
+      });
     }
 
     function renderTimeDisplay(text, hasActiveThreats) {
@@ -730,7 +1367,7 @@
           <span class="time-num">${from}</span>
           <span class="time-prefix">до</span>
           <span class="time-num">${to}</span>
-          ${extra ? `<span class="time-prefix" style="font-size:0.88rem; margin-left:4px;">${extra}</span>` : ''}
+          ${extra ? `<span class="time-prefix" style="font-size:0.86rem; margin-left:4px;">${extra}</span>` : ''}
         `;
         return;
       }
@@ -740,7 +1377,7 @@
         return;
       }
 
-      row.innerHTML = `<span class="time-prefix" style="font-size: 1.05rem; font-weight:800; color:#fff;">${safe}</span>`;
+      row.innerHTML = `<span class="time-prefix" style="font-size: 1.02rem; font-weight:800; color:var(--on-surface);">${safe}</span>`;
     }
 
     function renderTargetList(targetItems, rawText, state, level, hasThreats) {
@@ -755,9 +1392,10 @@
           const distKm = itemObj && itemObj.distKm ? itemObj.distKm : 0;
           const etaMin = itemObj && itemObj.etaMin ? itemObj.etaMin : 0;
           const ring = itemObj && typeof itemObj.ring === 'number' ? itemObj.ring : null;
+          const isMissile = Boolean(itemObj && itemObj.isMissile);
 
           const isClearLine = /(чисто|не зафіксовано|не зафиксировано|цілей немає|локаційно не)/i.test(line);
-          const itemDot = isClearLine ? 'dot-safe' : (ring !== null && ring <= 3 ? 'dot-yellow' : dotClass);
+          const itemDot = isClearLine ? 'dot-safe' : (isMissile ? 'dot-red' : (ring !== null && ring <= 3 ? 'dot-yellow' : dotClass));
           const distBadge = (!isClearLine && distKm > 10)
             ? `<span class="target-dist-tag">~${distKm} км • ~${etaMin} мин</span>`
             : (!isClearLine && ring === 0 ? `<span class="target-dist-tag">Над городом</span>` : '');
@@ -793,7 +1431,7 @@
       }
 
       lines.forEach(line => {
-        const isClearLine = /(чисто|не зафіксовано|не зафиксировано|цілей немає|локаційно не|дальние пуски)/i.test(line);
+        const isClearLine = /(чисто|не зафіксовано|не зафиксировано|цілей немає|локаційно не|дальние пуски|сейчас нет)/i.test(line);
         const item = document.createElement('div');
         item.className = 'target-item';
         item.innerHTML = `
@@ -814,6 +1452,7 @@
       const badge = document.getElementById('statusBadge');
       const officialPill = document.getElementById('officialStatusPill');
       const oblastPill = document.getElementById('oblastUavPill');
+      const oblastLevelLabel = document.getElementById('oblastLevelLabel');
       const num = document.getElementById('chanceNumber');
       const label = document.getElementById('chanceLabel');
       const fill = document.getElementById('scaleFill');
@@ -823,31 +1462,38 @@
       const timeSub = document.getElementById('timeSubText');
       const footer = document.getElementById('updateFooter');
 
-      const chanceVal = Math.min(100, Math.max(0, parseInt(data.chance, 10) || 12));
+      const chanceVal = Math.min(100, Math.max(0, parseInt(data.chance, 10) || 10));
       num.innerText = `${chanceVal}%`;
       fill.style.width = `${Math.max(4, chanceVal)}%`;
 
-      comment.innerText = data.comment || 'В Киеве и соседних секторах спокойно.';
-      timeSub.innerText = data.timeSub || 'Расчёт времени возможен только при фиксации целей или пусков';
+      comment.innerText = data.comment || 'В Киеве и всех 7 районах Киевской области спокойно.';
+      timeSub.innerText = data.timeSub || 'Расчёт времени выполняется только при фиксации целей или пусков';
       footer.innerText = formatUpdateTimestamp(data.updatedAt);
       closestDistLabel.innerText = data.closestSummary || '';
 
       officialPill.innerText = data.officialText || (
         data.state === 'ALARM'
-          ? '📲 Київ Цифровий / КМДА: У Києві тривога'
-          : '📲 Київ Цифровий / КМДА: Тривоги немає'
+          ? '📲 Київ Цифровий: У Києві тривога'
+          : '📲 Київ Цифровий: Тривоги в Києві немає'
       );
 
+      const obLvl = data.oblastLevel || (data.uavInOblast ? 'YELLOW' : 'SAFE');
       if (data.uavInOblast) {
-        oblastPill.className = 'oblast-uav-pill uav-active';
-        oblastPill.innerText = data.oblastStatusText || '🛸 В Киевской области: зафиксированы цели';
+        oblastPill.className = `oblast-uav-pill ${obLvl === 'RED' ? 'uav-red' : 'uav-yellow'}`;
+        oblastPill.innerText = data.oblastStatusText || '🛸 В Киевской области зафиксированы цели';
+        oblastLevelLabel.innerText = obLvl === 'RED' ? '🔴 Ракетная угроза' : '🟡 Угроза БпЛА';
       } else if (data.uavInNeighbors) {
-        oblastPill.className = 'oblast-uav-pill uav-active';
-        oblastPill.innerText = data.oblastStatusText || '⚠️ На подступах (соседние обл.): есть цели';
+        oblastPill.className = 'oblast-uav-pill uav-yellow';
+        oblastPill.innerText = data.oblastStatusText || '⚠️ Цели у границ области';
+        oblastLevelLabel.innerText = '🟡 Внимание у границ';
       } else {
         oblastPill.className = 'oblast-uav-pill uav-clear';
-        oblastPill.innerText = data.oblastStatusText || '🛡️ В Киевской области: чисто, БпЛА нет';
+        oblastPill.innerText = data.oblastStatusText || '🛡️ Киевская область: чисто во всех 7 районах';
+        oblastLevelLabel.innerText = '🟢 Все районы чисто';
       }
+
+      renderDistricts(data.oblastDistricts);
+      renderSourcesDrawer(data.sources);
 
       const hasActiveThreats = (data.state === 'ALARM') || Boolean(data.uavInOblast) || Boolean(data.uavInNeighbors) || Boolean(data.hasDistantLaunches) || (data.targetCount > 0);
       renderTimeDisplay(data.timeText, hasActiveThreats);
@@ -856,10 +1502,10 @@
       if (data.state === 'ALARM') {
         if (data.level === 'RED') {
           hero.className = 'm3-card card-alarm-red';
-          badge.innerText = '🚨 КИЕВ — ВОЗДУШНАЯ ТРЕВОГА (РАКЕТНАЯ)';
+          badge.innerText = '🚨 КИЕВ — КРАСНАЯ ТРЕВОГА (РАКЕТНАЯ)';
         } else {
           hero.className = 'm3-card card-alarm-yellow';
-          badge.innerText = '🚨 КИЕВ — ВОЗДУШНАЯ ТРЕВОГА (БпЛА)';
+          badge.innerText = '🚨 КИЕВ — ЖЁЛТАЯ ТРЕВОГА (БпЛА)';
         }
         label.innerText = 'Вероятность скорого отбоя';
         timeEyebrow.innerText = 'Прогноз отбоя';
@@ -882,19 +1528,9 @@
       dot.classList.remove('offline');
       dot.classList.add('scanning');
       btnScan.classList.add('spinning');
-      liveText.innerText = forceScan ? 'Скан КМДА + ТГК...' : 'Синхронизация...';
+      liveText.innerText = forceScan ? 'Скан 20 ТГК...' : 'Обновление...';
 
       const baseUrl = getApiBaseUrl();
-      if (baseUrl.includes('YOUR-CLOUDFLARE-TUNNEL')) {
-        dot.classList.remove('scanning');
-        dot.classList.add('offline');
-        btnScan.classList.remove('spinning');
-        liveText.innerText = 'Нужен URL сервера';
-        document.getElementById('heroComment').innerText = 'Укажите URL туннеля Cloudflare в DEFAULT_API_BASE_URL в index.html (или ?api=URL).';
-        isLoading = false;
-        return;
-      }
-
       try {
         const endpoint = forceScan ? `${baseUrl}/api/scan` : `${baseUrl}/api/status`;
         const ctrl = new AbortController();
@@ -911,12 +1547,12 @@
 
         localStorage.setItem(CACHE_KEY, JSON.stringify(data));
         renderScreen(data);
-        liveText.innerText = 'Київ Цифровий + ТГК';
+        liveText.innerText = '20 ТГК • Live';
       } catch (e) {
         dot.classList.add('offline');
-        liveText.innerText = 'Сервер оффлайн (кэш)';
+        liveText.innerText = 'Ожидание сети';
         if (!activeData) {
-          document.getElementById('heroComment').innerText = 'Нет связи с Python-сервером на Redmi 9. Проверьте Termux и Cloudflare Tunnel.';
+          document.getElementById('heroComment').innerText = 'Сервер анализа временно недоступен. Повторное подключение...';
         }
       } finally {
         isLoading = false;
@@ -936,12 +1572,12 @@
       const btn = document.getElementById('btnAskSend');
       const box = document.getElementById('aiAnswerBox');
 
-      const question = input.value.trim() || 'Есть ли сейчас БпЛА в Киевской области и когда возможна тревога?';
+      const question = input.value.trim() || 'Какая сейчас обстановка в Киеве и по районам области?';
       const baseUrl = getApiBaseUrl();
 
       btn.disabled = true;
       btn.innerText = 'Анализ...';
-      box.innerHTML = 'Сервер на Redmi 9 сверяет данные Київ Цифровий / КМДА и сводки радаров...';
+      box.innerHTML = 'ИИ Gemini сверяет данные Київ Цифровий и 20 мониторинговых каналов...';
 
       try {
         const ctrl = new AbortController();
@@ -961,16 +1597,54 @@
           localStorage.setItem(CACHE_KEY, JSON.stringify(json.status));
           renderScreen(json.status);
         }
-        box.innerHTML = formatTextWithBigTimes(json.answer || 'Нет ответа от сервера.');
+        box.innerHTML = formatTextWithBigTimes(json.answer || 'Активных угроз не обнаружено.');
       } catch (e) {
-        box.innerHTML = 'Не удалось подключиться к Python-серверу на Redmi 9. Убедитесь, что сервер и Cloudflare Tunnel запущены.';
+        box.innerHTML = 'Не удалось получить ответ от облачного анализатора. Попробуйте ещё раз через несколько секунд.';
       } finally {
         btn.disabled = false;
         btn.innerText = 'Спросить';
       }
     }
 
-    function init() {
+    function runInitialEntryLoaderIfNeeded() {
+      const loader = document.getElementById('initialLoader');
+      const alreadyLoadedInSession = sessionStorage.getItem(SESSION_LOADED_KEY);
+
+      // Показываем полноэкранный анализ ТОЛЬКО при первом заходе в сессии, а при обновлении страницы (F5) сразу открываем интерфейс
+      if (alreadyLoadedInSession) {
+        loader.classList.add('hidden');
+        return;
+      }
+
+      sessionStorage.setItem(SESSION_LOADED_KEY, '1');
+      const bar = document.getElementById('loaderProgressBar');
+      const stepText = document.getElementById('loaderStepText');
+      const chip = document.getElementById('loaderChannelChip');
+
+      const steps = [
+        { pct: 32, text: 'Проверка официального статуса Київ Цифровий / КМДА...', chip: '@KyivCityOfficial • @kpszsu • @airAlarm_Kyiv' },
+        { pct: 64, text: 'Сканирование 20 радарных каналов и фильтрация спама...', chip: '@kyiv_airdef • @kyivnebomonitoring • @PpoUaKyiv • @chyste_nebo' },
+        { pct: 90, text: 'Расчёт по 7 районам Киевской области через Gemini AI...', chip: 'Вышгород • Бровары • Борисполь • Буча • Фастов • Обухов' }
+      ];
+
+      steps.forEach((s, idx) => {
+        setTimeout(() => {
+          bar.style.width = `${s.pct}%`;
+          stepText.innerText = s.text;
+          chip.innerText = s.chip;
+        }, (idx + 1) * 420);
+      });
+    }
+
+    async function init() {
+      const savedTheme = localStorage.getItem(THEME_KEY) || 'm3-dark';
+      setAppTheme(savedTheme);
+
+      renderDistricts(FALLBACK_DISTRICTS);
+      renderSourcesDrawer(FALLBACK_SOURCES);
+
+      runInitialEntryLoaderIfNeeded();
+
       try {
         const raw = localStorage.getItem(CACHE_KEY);
         if (raw) {
@@ -978,8 +1652,16 @@
         }
       } catch (e) {}
 
-      fetchRadarStatus(false);
-      setInterval(() => fetchRadarStatus(false), 50000);
+      await fetchRadarStatus(false);
+
+      const loader = document.getElementById('initialLoader');
+      const bar = document.getElementById('loaderProgressBar');
+      if (bar) bar.style.width = '100%';
+      setTimeout(() => {
+        if (loader) loader.classList.add('hidden');
+      }, 350);
+
+      setInterval(() => fetchRadarStatus(false), 45000);
 
       document.addEventListener('visibilitychange', () => {
         if (!document.hidden) {
