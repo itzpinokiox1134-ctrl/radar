@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <meta name="theme-color" content="#101216" />
+  <meta name="theme-color" content="#0f1115" />
   <title>Kyiv Air Alert</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,27 +24,23 @@
       --outline: rgba(255, 255, 255, 0.06);
       --outline-variant: rgba(255, 255, 255, 0.12);
 
-      /* Спокойные пастельные тональные палитры M3 (без кислотных цветов) */
       --primary: #a5c4d4;
       --primary-container: #223542;
       --on-primary: #0d1f29;
       --on-primary-container: #cce5f2;
 
-      /* Безопасно / Отбой — мягкий шалфейный */
       --safe-tone: #87c29c;
       --safe-container: #182b20;
       --safe-container-high: #1f3729;
       --on-safe-container: #bce6ca;
       --safe-border: rgba(135, 194, 156, 0.22);
 
-      /* Жёлтая тревога (БпЛА) — тёплый приглушённый янтарный */
       --warn-tone: #dfba69;
       --warn-container: #2f2614;
       --warn-container-high: #3d3119;
       --on-warn-container: #f5ddb0;
       --warn-border: rgba(223, 186, 105, 0.28);
 
-      /* Красная тревога (Ракетная) — благородный терракотовый */
       --alert-tone: #e28f88;
       --alert-container: #331b1a;
       --alert-container-high: #442322;
@@ -144,7 +140,7 @@
       --shape-md: 20px;
       --shape-sm: 14px;
       --spring-expressive: cubic-bezier(0.22, 1, 0.36, 1);
-      --spring-bounce: cubic-bezier(0.34, 1.4, 0.64, 1);
+      --spring-bounce: cubic-bezier(0.34, 1.45, 0.64, 1);
     }
 
     * {
@@ -164,7 +160,7 @@
       justify-content: center;
       align-items: flex-start;
       overflow-x: hidden;
-      transition: background-color 0.38s var(--spring-expressive), color 0.38s var(--spring-expressive);
+      transition: background-color 0.42s var(--spring-expressive), color 0.42s var(--spring-expressive);
     }
 
     svg.m3-icon {
@@ -176,6 +172,50 @@
       stroke-linecap: round;
       stroke-linejoin: round;
       flex-shrink: 0;
+    }
+
+    /* ===================== ПРУЖИННЫЕ АНИМАЦИИ M3 EXPRESSIVE ===================== */
+    @keyframes m3CardEnter {
+      0% {
+        opacity: 0;
+        transform: translateY(18px) scale(0.975);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes m3ItemSlideIn {
+      0% {
+        opacity: 0;
+        transform: translateY(10px) scale(0.98);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes m3ShimmerFlow {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(220%); }
+    }
+
+    @keyframes m3BreathingHalo {
+      0% { box-shadow: var(--elevation-1), 0 0 0 0 rgba(226, 143, 136, 0.22); }
+      100% { box-shadow: var(--elevation-1), 0 0 0 8px rgba(226, 143, 136, 0); }
+    }
+
+    .m3-anim-enter-1 { animation: m3CardEnter 0.55s var(--spring-expressive) 0.04s both; }
+    .m3-anim-enter-2 { animation: m3CardEnter 0.58s var(--spring-expressive) 0.1s both; }
+    .m3-anim-enter-3 { animation: m3CardEnter 0.62s var(--spring-expressive) 0.16s both; }
+    .m3-anim-enter-4 { animation: m3CardEnter 0.66s var(--spring-expressive) 0.22s both; }
+    .m3-anim-enter-5 { animation: m3CardEnter 0.7s var(--spring-expressive) 0.28s both; }
+
+    .stagger-item {
+      animation: m3ItemSlideIn 0.44s var(--spring-expressive) both;
+      animation-delay: calc(var(--stagger-idx, 0) * 45ms);
     }
 
     /* ===================== ПЕРВИЧНЫЙ ЭКРАН ЗАГРУЗКИ (ТОЛЬКО ПРИ ПЕРВОМ ВХОДЕ) ===================== */
@@ -210,7 +250,7 @@
       justify-content: center;
       position: relative;
       margin-bottom: 22px;
-      animation: shapeMorph 3.2s ease-in-out infinite alternate;
+      animation: shapeMorph 3s ease-in-out infinite alternate;
     }
     .loader-m3-shape svg {
       width: 38px;
@@ -227,11 +267,11 @@
     }
     @keyframes shapeMorph {
       0% { border-radius: 28px; transform: rotate(0deg) scale(1); }
-      100% { border-radius: 36px 22px 34px 24px; transform: rotate(4deg) scale(1.03); }
+      100% { border-radius: 38px 22px 36px 22px; transform: rotate(5deg) scale(1.04); }
     }
     @keyframes pulseRing {
       0% { transform: scale(0.9); opacity: 0.5; }
-      100% { transform: scale(1.24); opacity: 0; }
+      100% { transform: scale(1.25); opacity: 0; }
     }
 
     .loader-title {
@@ -286,11 +326,11 @@
       inset: 0;
       z-index: 1200;
       background: var(--scrim);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
       opacity: 0;
       visibility: hidden;
-      transition: opacity 0.34s var(--spring-expressive), visibility 0.34s;
+      transition: opacity 0.36s var(--spring-expressive), visibility 0.36s;
     }
     .drawer-backdrop.open {
       opacity: 1;
@@ -302,17 +342,17 @@
       top: 0;
       left: 0;
       bottom: 0;
-      width: min(88vw, 368px);
+      width: min(88vw, 372px);
       z-index: 1250;
       background: var(--surface-1);
       border-right: 1px solid var(--outline-variant);
       border-radius: 0 var(--shape-xl) var(--shape-xl) 0;
-      padding: calc(16px + env(safe-area-inset-top, 0px)) 16px calc(22px + env(safe-area-inset-bottom, 0px));
+      padding: calc(16px + env(safe-area-inset-top, 0px)) 16px calc(18px + env(safe-area-inset-bottom, 0px));
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 15px;
       transform: translateX(-104%);
-      transition: transform 0.4s var(--spring-expressive), background-color 0.35s var(--spring-expressive);
+      transition: transform 0.42s var(--spring-expressive), background-color 0.35s var(--spring-expressive);
       box-shadow: var(--elevation-1);
       overflow-y: auto;
     }
@@ -324,7 +364,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 2px 4px 10px;
+      padding: 2px 4px 12px;
       border-bottom: 1px solid var(--outline);
     }
     .drawer-brand {
@@ -333,14 +373,28 @@
       gap: 10px;
     }
     .drawer-brand-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 12px;
+      width: 38px;
+      height: 38px;
+      border-radius: 13px;
       background: var(--primary-container);
       color: var(--on-primary-container);
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: transform 0.35s var(--spring-bounce);
+    }
+    .side-drawer.open .drawer-brand-icon {
+      transform: rotate(-6deg) scale(1.04);
+    }
+    .drawer-brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .drawer-title-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
     }
     .drawer-title {
       font-family: 'Outfit', sans-serif;
@@ -348,6 +402,23 @@
       font-weight: 800;
       letter-spacing: -0.2px;
     }
+    .version-pill-badge {
+      font-size: 0.64rem;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: var(--shape-pill);
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      border: 1px solid var(--outline-variant);
+    }
+    .drawer-sub-caption {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--on-surface-variant);
+    }
+
     .icon-btn {
       width: 40px;
       height: 40px;
@@ -359,16 +430,17 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: transform 0.22s var(--spring-bounce), background-color 0.2s;
+      transition: transform 0.24s var(--spring-bounce), background-color 0.2s, border-radius 0.24s;
       flex-shrink: 0;
     }
     .icon-btn:active {
-      transform: scale(0.9);
+      transform: scale(0.88) rotate(90deg);
+      border-radius: 14px;
       background: var(--surface-3);
     }
 
     .drawer-label {
-      font-size: 0.7rem;
+      font-size: 0.69rem;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.8px;
@@ -400,16 +472,24 @@
       justify-content: center;
       gap: 6px;
       cursor: pointer;
-      transition: all 0.26s var(--spring-expressive);
+      transition: all 0.28s var(--spring-bounce);
     }
     .seg-theme-btn svg {
       width: 16px;
       height: 16px;
+      transition: transform 0.3s var(--spring-bounce);
     }
     .seg-theme-btn.active {
       background: var(--primary-container);
       color: var(--on-primary-container);
       font-weight: 800;
+      transform: scale(1.02);
+    }
+    .seg-theme-btn.active svg {
+      transform: rotate(-12deg) scale(1.1);
+    }
+    .seg-theme-btn:active {
+      transform: scale(0.94);
     }
 
     .sources-scroll {
@@ -418,6 +498,7 @@
       gap: 6px;
       overflow-y: auto;
       padding-right: 2px;
+      flex: 1;
     }
     .source-card-link {
       display: flex;
@@ -430,12 +511,13 @@
       border: 1px solid var(--outline);
       text-decoration: none;
       color: var(--on-surface);
-      transition: transform 0.22s var(--spring-expressive), background-color 0.2s, border-color 0.2s;
+      transition: transform 0.24s var(--spring-bounce), background-color 0.2s, border-color 0.2s, border-radius 0.24s;
     }
     .source-card-link:hover, .source-card-link:active {
       background: var(--surface-3);
       border-color: var(--outline-variant);
-      transform: translateX(2px);
+      border-radius: 24px;
+      transform: translateX(4px) scale(1.01);
     }
     .source-left {
       display: flex;
@@ -453,6 +535,10 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      transition: transform 0.24s var(--spring-bounce);
+    }
+    .source-card-link:hover .source-icon-box {
+      transform: scale(1.08);
     }
     .source-icon-box svg {
       width: 16px;
@@ -485,6 +571,24 @@
       color: var(--primary);
       border: 1px solid var(--outline);
       flex-shrink: 0;
+    }
+
+    /* Нижний блок версии в боковом меню */
+    .drawer-version-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 13px;
+      border-radius: var(--shape-md);
+      background: var(--surface-2);
+      border: 1px solid var(--outline);
+      font-size: 0.73rem;
+      font-weight: 700;
+      color: var(--on-surface-variant);
+    }
+    .drawer-version-tag {
+      color: var(--primary);
+      font-weight: 800;
     }
 
     /* ===================== АДАПТИВНАЯ ОБОЛОЧКА MINI-APP & DESKTOP ===================== */
@@ -524,7 +628,7 @@
       }
     }
 
-    /* ===================== ШАПКА (TOP APP BAR — НЕ СЛИВАЕТСЯ НА ЛЮБОМ ЭКРАНЕ) ===================== */
+    /* ===================== ШАПКА (TOP APP BAR) ===================== */
     .m3-top-app-bar {
       display: grid;
       grid-template-columns: auto 1fr auto;
@@ -535,6 +639,7 @@
       border-radius: var(--shape-xl);
       padding: 8px 10px;
       box-shadow: var(--elevation-1);
+      transition: transform 0.3s var(--spring-expressive), background-color 0.35s;
     }
 
     .nav-trigger-btn {
@@ -550,12 +655,15 @@
       font-size: 0.78rem;
       font-weight: 700;
       cursor: pointer;
-      transition: all 0.22s var(--spring-bounce);
+      transition: transform 0.24s var(--spring-bounce), border-radius 0.24s var(--spring-expressive), background-color 0.2s;
       flex-shrink: 0;
     }
-    .nav-trigger-btn:active {
-      transform: scale(0.94);
+    .nav-trigger-btn:hover {
       background: var(--surface-3);
+    }
+    .nav-trigger-btn:active {
+      transform: scale(0.92);
+      border-radius: 14px;
     }
 
     .brand-center {
@@ -578,7 +686,7 @@
     .brand-subtitle {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
       font-size: 0.68rem;
       font-weight: 600;
       color: var(--on-surface-variant);
@@ -594,18 +702,18 @@
       border-radius: 50%;
       background: var(--safe-tone);
       flex-shrink: 0;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s, transform 0.3s;
     }
     .status-indicator-dot.scanning {
       background: var(--primary);
-      animation: dotPulse 0.8s ease-in-out infinite alternate;
+      animation: dotPulse 0.75s ease-in-out infinite alternate;
     }
     .status-indicator-dot.offline {
       background: var(--warn-tone);
     }
     @keyframes dotPulse {
-      from { transform: scale(0.8); opacity: 0.5; }
-      to { transform: scale(1.2); opacity: 1; }
+      from { transform: scale(0.8); opacity: 0.45; }
+      to { transform: scale(1.28); opacity: 1; }
     }
 
     .refresh-fab-btn {
@@ -621,11 +729,15 @@
       font-size: 0.77rem;
       font-weight: 800;
       cursor: pointer;
-      transition: all 0.22s var(--spring-bounce);
+      transition: transform 0.24s var(--spring-bounce), border-radius 0.24s var(--spring-expressive), filter 0.2s;
       flex-shrink: 0;
     }
+    .refresh-fab-btn:hover {
+      filter: brightness(1.06);
+    }
     .refresh-fab-btn:active {
-      transform: scale(0.93);
+      transform: scale(0.91);
+      border-radius: 14px;
     }
     .refresh-fab-btn.spinning svg {
       animation: spin360 0.85s linear infinite;
@@ -654,7 +766,7 @@
       border-radius: var(--shape-xl);
       padding: 18px;
       box-shadow: var(--elevation-1);
-      transition: all 0.42s var(--spring-expressive);
+      transition: transform 0.36s var(--spring-expressive), background 0.45s var(--spring-expressive), border-color 0.45s var(--spring-expressive), border-radius 0.36s var(--spring-expressive);
       position: relative;
       overflow: hidden;
     }
@@ -670,6 +782,7 @@
     .hero-state-red {
       background: linear-gradient(165deg, var(--alert-container) 0%, var(--surface-1) 75%);
       border-color: var(--alert-border);
+      animation: m3BreathingHalo 2.4s infinite;
     }
 
     .hero-pills-stack {
@@ -690,7 +803,7 @@
       font-weight: 800;
       letter-spacing: 0.3px;
       text-transform: uppercase;
-      transition: all 0.35s var(--spring-expressive);
+      transition: all 0.38s var(--spring-bounce);
     }
     .hero-state-safe .m3-state-pill {
       background: var(--safe-container-high);
@@ -726,6 +839,7 @@
       background: var(--surface-2);
       color: var(--on-surface-variant);
       border: 1px solid var(--outline);
+      transition: all 0.32s var(--spring-expressive);
     }
     .m3-tonal-chip svg {
       width: 14px;
@@ -763,11 +877,11 @@
     }
     .chance-display {
       font-family: 'Outfit', sans-serif;
-      font-size: 3.4rem;
+      font-size: 3.45rem;
       font-weight: 900;
       line-height: 0.95;
       letter-spacing: -2px;
-      transition: color 0.35s var(--spring-expressive);
+      transition: color 0.38s var(--spring-expressive), transform 0.35s var(--spring-bounce);
     }
     .hero-state-safe .chance-display { color: var(--safe-tone); }
     .hero-state-yellow .chance-display { color: var(--warn-tone); }
@@ -782,7 +896,7 @@
       text-align: right;
     }
 
-    /* Секционная шкала прогресса M3 */
+    /* Живая шкала прогресса M3 с мягким бликом */
     .m3-progress-container {
       width: 100%;
       margin: 6px 0 12px;
@@ -799,7 +913,17 @@
     .m3-progress-indicator {
       height: 100%;
       border-radius: var(--shape-pill);
-      transition: width 0.75s var(--spring-expressive), background-color 0.4s;
+      position: relative;
+      overflow: hidden;
+      transition: width 0.85s var(--spring-bounce), background-color 0.4s;
+    }
+    .m3-progress-indicator::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      width: 45%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+      animation: m3ShimmerFlow 2.6s ease-in-out infinite;
     }
     .hero-state-safe .m3-progress-indicator { background: var(--safe-tone); }
     .hero-state-yellow .m3-progress-indicator { background: var(--warn-tone); }
@@ -824,6 +948,7 @@
       font-weight: 600;
       color: var(--on-surface);
       line-height: 1.42;
+      transition: background-color 0.3s;
     }
 
     /* ===================== ЗАГОЛОВОК СЕКЦИЙ КАРТОЧЕК ===================== */
@@ -857,6 +982,7 @@
       background: var(--surface-2);
       color: var(--primary);
       border: 1px solid var(--outline);
+      transition: all 0.3s var(--spring-expressive);
     }
 
     /* ===================== КАРТОЧКА 2: 7 РАЙОНОВ КИЕВСКОЙ ОБЛАСТИ ===================== */
@@ -874,7 +1000,16 @@
       align-items: center;
       justify-content: space-between;
       gap: 8px;
-      transition: all 0.28s var(--spring-expressive);
+      cursor: pointer;
+      transition: transform 0.26s var(--spring-bounce), border-radius 0.26s var(--spring-expressive), background-color 0.3s, border-color 0.3s;
+    }
+    .district-tile:hover {
+      transform: translateY(-2px);
+      border-color: var(--outline-variant);
+    }
+    .district-tile:active {
+      transform: scale(0.95);
+      border-radius: 24px;
     }
     .district-tile:last-child:nth-child(odd) {
       grid-column: span 2;
@@ -927,6 +1062,10 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      transition: transform 0.28s var(--spring-bounce);
+    }
+    .district-tile:hover .district-status-icon {
+      transform: scale(1.1);
     }
     .district-status-icon svg {
       width: 15px;
@@ -969,6 +1108,7 @@
       border-radius: var(--shape-sm);
       border: 1px solid var(--outline-variant);
       letter-spacing: -0.4px;
+      transition: transform 0.25s var(--spring-bounce);
     }
     .no-threat-banner {
       display: inline-flex;
@@ -983,6 +1123,7 @@
       padding: 10px 13px;
       border-radius: var(--shape-md);
       line-height: 1.35;
+      animation: m3ItemSlideIn 0.4s var(--spring-expressive) both;
     }
     .no-threat-banner svg {
       width: 18px;
@@ -1015,6 +1156,11 @@
       font-weight: 600;
       color: var(--on-surface);
       line-height: 1.35;
+      transition: transform 0.24s var(--spring-bounce), border-color 0.24s, border-radius 0.24s;
+    }
+    .target-row-card:hover {
+      transform: translateX(3px);
+      border-color: var(--outline-variant);
     }
     .target-row-left {
       display: flex;
@@ -1076,12 +1222,16 @@
       font-size: 0.74rem;
       font-weight: 700;
       cursor: pointer;
-      transition: all 0.2s var(--spring-expressive);
+      transition: transform 0.22s var(--spring-bounce), background-color 0.2s, color 0.2s, border-radius 0.22s;
+    }
+    .m3-suggestion-chip:hover {
+      background: var(--surface-3);
     }
     .m3-suggestion-chip:active {
       background: var(--primary-container);
       color: var(--on-primary-container);
-      transform: scale(0.96);
+      transform: scale(0.94);
+      border-radius: 12px;
     }
 
     .assistant-search-bar {
@@ -1101,7 +1251,7 @@
       font-size: 0.84rem;
       font-weight: 500;
       outline: none;
-      transition: border-color 0.2s, background-color 0.2s;
+      transition: border-color 0.25s, background-color 0.25s, transform 0.25s var(--spring-expressive);
     }
     .assistant-input:focus {
       border-color: var(--primary);
@@ -1121,10 +1271,11 @@
       gap: 6px;
       cursor: pointer;
       flex-shrink: 0;
-      transition: transform 0.2s var(--spring-bounce), opacity 0.2s;
+      transition: transform 0.24s var(--spring-bounce), border-radius 0.24s var(--spring-expressive), opacity 0.2s;
     }
     .assistant-send-btn:active {
-      transform: scale(0.95);
+      transform: scale(0.92);
+      border-radius: 14px;
     }
     .assistant-send-btn:disabled {
       opacity: 0.5;
@@ -1140,6 +1291,7 @@
       font-weight: 500;
       line-height: 1.46;
       color: var(--on-surface);
+      transition: all 0.3s var(--spring-expressive);
     }
     .assistant-response-surface .time-chip-digit {
       font-size: 1.15rem;
@@ -1176,7 +1328,7 @@
     <div class="loader-pill" id="loaderChannelChip">@kpszsu • @kyiv_airdef • @kyivnebomonitoring</div>
   </div>
 
-  <!-- БОКОВАЯ ПАНЕЛЬ (ТЕМЫ И 20 ИСТОЧНИКОВ) -->
+  <!-- БОКОВАЯ ПАНЕЛЬ (ВЕРСИЯ ALPHA 1.0, ТЕМЫ И 20 ИСТОЧНИКОВ) -->
   <div class="drawer-backdrop" id="drawerBackdrop" onclick="toggleDrawer(false)"></div>
   <aside class="side-drawer" id="sideDrawer">
     <div class="drawer-top">
@@ -1186,7 +1338,13 @@
             <path d="M12 3L4 7v6c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V7l-8-4z" />
           </svg>
         </div>
-        <div class="drawer-title">Kyiv Air Alert</div>
+        <div class="drawer-brand-text">
+          <div class="drawer-title-row">
+            <span class="drawer-title">Kyiv Air Alert</span>
+            <span class="version-pill-badge">Alpha 1.0</span>
+          </div>
+          <span class="drawer-sub-caption">Система мониторинга Киева и области</span>
+        </div>
       </div>
       <button class="icon-btn" onclick="toggleDrawer(false)" aria-label="Закрыть">
         <svg class="m3-icon" viewBox="0 0 24 24">
@@ -1217,13 +1375,18 @@
       <div class="drawer-label">Мониторинговые ресурсы (20 каналов + КМДА)</div>
       <div class="sources-scroll" id="sourcesListContainer"></div>
     </div>
+
+    <div class="drawer-version-footer">
+      <span>Сборка приложения</span>
+      <span class="drawer-version-tag">Kyiv Air Alert • Alpha 1.0</span>
+    </div>
   </aside>
 
   <!-- ГЛАВНЫЙ КОНТЕЙНЕР KYIV AIR ALERT -->
   <div class="app-container">
 
     <!-- АДАПТИВНАЯ ШАПКА (TOP APP BAR) -->
-    <header class="m3-top-app-bar">
+    <header class="m3-top-app-bar m3-anim-enter-1">
       <button class="nav-trigger-btn" onclick="toggleDrawer(true)">
         <svg class="m3-icon" viewBox="0 0 24 24">
           <path d="M4 7h16M4 12h16M4 17h11" />
@@ -1257,7 +1420,7 @@
       <div class="bento-col">
 
         <!-- КАРТОЧКА 1: СТАТУС КИЕВА И ВЕРОЯТНОСТЬ -->
-        <section class="m3-surface-card hero-state-safe" id="heroCard">
+        <section class="m3-surface-card hero-state-safe m3-anim-enter-2" id="heroCard">
           <div class="hero-pills-stack">
             <div class="m3-state-pill" id="statusBadge">
               <span id="statusBadgeIcon"></span>
@@ -1299,7 +1462,7 @@
         </section>
 
         <!-- КАРТОЧКА 2: РАЙОНЫ КИЕВСКОЙ ОБЛАСТИ (7 РАЙОНОВ) -->
-        <section class="m3-surface-card">
+        <section class="m3-surface-card m3-anim-enter-3">
           <div class="section-head">
             <div class="section-title-group">
               <svg class="m3-icon" viewBox="0 0 24 24">
@@ -1319,7 +1482,7 @@
       <div class="bento-col">
 
         <!-- КАРТОЧКА 3: ПРОГНОЗ ВРЕМЕНИ -->
-        <section class="m3-surface-card">
+        <section class="m3-surface-card m3-anim-enter-3">
           <div class="section-head">
             <div class="section-title-group">
               <svg class="m3-icon" viewBox="0 0 24 24">
@@ -1340,7 +1503,7 @@
         </section>
 
         <!-- КАРТОЧКА 4: ЧТО ЛЕТИТ / ВОКРУГ КИЕВА -->
-        <section class="m3-surface-card">
+        <section class="m3-surface-card m3-anim-enter-4">
           <div class="section-head">
             <div class="section-title-group">
               <svg class="m3-icon" viewBox="0 0 24 24">
@@ -1348,13 +1511,13 @@
               </svg>
               <span>Воздушные цели и направления</span>
             </div>
-            <span class="section-badge">Анти-спам фильтр</span>
+            <span class="section-badge">Без дубликатов</span>
           </div>
           <div class="targets-stack" id="targetList"></div>
         </section>
 
         <!-- КАРТОЧКА 5: АНАЛИТИЧЕСКИЙ ПОМОЩНИК -->
-        <section class="m3-surface-card">
+        <section class="m3-surface-card m3-anim-enter-5">
           <div class="section-head">
             <div class="section-title-group">
               <svg class="m3-icon" viewBox="0 0 24 24">
@@ -1385,7 +1548,7 @@
           </div>
 
           <div class="assistant-response-surface" id="aiAnswerBox">
-            Выберите быстрый вопрос или напишите свой — система сопоставит сводки Київ Цифровий, Воздушных Сил и 20 радарных каналов без рекламы и информационного шума.
+            Выберите быстрый вопрос или нажмите на любой район Киевской области — система сопоставит сводки Київ Цифровий, Воздушных Сил и 20 радарных каналов.
           </div>
         </section>
 
@@ -1401,11 +1564,10 @@
 
   <script>
     const DEFAULT_API_BASE_URL = 'https://consult-represent-consequently-estimates.trycloudflare.com';
-    const CACHE_KEY = 'kyiv_air_alert_m3_v15_cache';
+    const CACHE_KEY = 'kyiv_air_alert_m3_v16_cache';
     const THEME_KEY = 'kyiv_air_alert_m3_theme';
-    const SESSION_LOADED_KEY = 'kyiv_air_alert_session_loaded_v2';
+    const SESSION_LOADED_KEY = 'kyiv_air_alert_session_loaded_v3';
 
-    // Кастомные векторные иконки M3 (без эмодзи)
     const SVG_ICONS = {
       shieldCheck: `<svg class="m3-icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>`,
       radarWarn: `<svg class="m3-icon" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>`,
@@ -1450,6 +1612,7 @@
 
     let activeData = null;
     let isLoading = false;
+    let currentChanceDisplayed = 0;
 
     function getApiBaseUrl() {
       const params = new URLSearchParams(window.location.search);
@@ -1484,11 +1647,46 @@
       return (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
     }
 
-    // Удаляем системные эмодзи из серверных строк, так как у нас собственные M3 SVG-иконки
     function stripLeadingEmojis(str) {
       return (str || '')
-        .replace(/^[\s🟢🟡🔴🚨📲🛡️🛸⚠️🚀⚡🔭🛵▪️▫️•\-—]+/u, '')
+        .replace(/^[\s🟢🟡🔴🚨📲🛡️🛸⚠️🚀⚡🔭🛵🏍️▪️▫️•\-—]+/u, '')
         .trim();
+    }
+
+    // Клиентская нормализация строк целей, чтобы на 100% исключить любые дубликаты
+    function normalizeTargetKeyClient(str) {
+      let s = stripLeadingEmojis(str).toLowerCase();
+      s = s.replace(/^[^:]{2,32}:\s*/, '');
+      s = s.replace(/[xх]/g, 'х').replace(/[iі]/g, 'і');
+      s = s.replace(/\b\d+\s*(х|шт\.?)\b/g, '');
+      s = s.replace(/\b(ударн\S*|ворож\S*|реактивн\S*|р?бпла|шахед\S*|дрон\S*|курс\S*|вектор\S*|напрям\S*|летит\S*|летять|рухаєт\S*|у\s+бік|в\s+сторону|на|до|повз|через|район\S*)\b/g, ' ');
+      return s.replace(/[^а-яіїєґa-z0-9]+/g, ' ').trim().slice(0, 28);
+    }
+
+    function animateChanceCounter(targetValue) {
+      const el = document.getElementById('chanceNumber');
+      const startValue = currentChanceDisplayed || targetValue;
+      currentChanceDisplayed = targetValue;
+
+      if (startValue === targetValue) {
+        el.innerText = `${targetValue}%`;
+        return;
+      }
+
+      const duration = 520;
+      const startTime = performance.now();
+
+      function tick(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(1, elapsed / duration);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const val = Math.round(startValue + (targetValue - startValue) * eased);
+        el.innerText = `${val}%`;
+        if (progress < 1) {
+          requestAnimationFrame(tick);
+        }
+      }
+      requestAnimationFrame(tick);
     }
 
     function formatUpdateTimestamp(ts) {
@@ -1508,11 +1706,13 @@
       const list = Array.isArray(districts) && districts.length > 0 ? districts : FALLBACK_DISTRICTS;
       grid.innerHTML = '';
 
-      list.forEach(d => {
+      list.forEach((d, idx) => {
         const lvl = d.level === 'RED' ? 'RED' : (d.level === 'YELLOW' ? 'YELLOW' : 'SAFE');
         const iconSvg = lvl === 'RED' ? SVG_ICONS.rocketAlert : (lvl === 'YELLOW' ? SVG_ICONS.radarWarn : SVG_ICONS.shieldCheck);
         const card = document.createElement('div');
-        card.className = `district-tile level-${lvl}`;
+        card.className = `district-tile level-${lvl} stagger-item`;
+        card.style.setProperty('--stagger-idx', idx);
+        card.onclick = () => askPresetQuestion(`Какая сейчас обстановка в районе: ${d.name} (${d.center})?`);
         card.innerHTML = `
           <div class="district-text">
             <span class="district-title">${escapeHtml(d.name)}</span>
@@ -1529,9 +1729,10 @@
       const list = Array.isArray(sources) && sources.length > 0 ? sources : FALLBACK_SOURCES;
       container.innerHTML = '';
 
-      list.forEach(src => {
+      list.forEach((src, idx) => {
         const a = document.createElement('a');
-        a.className = 'source-card-link';
+        a.className = 'source-card-link stagger-item';
+        a.style.setProperty('--stagger-idx', idx);
         a.href = src.url || '#';
         a.target = '_blank';
         a.rel = 'noopener noreferrer';
@@ -1590,11 +1791,17 @@
       list.innerHTML = '';
 
       const baseTone = (state === 'ALARM' && level === 'RED') ? 'tone-red' : ((state === 'ALARM' || hasThreats) ? 'tone-yellow' : 'tone-safe');
+      const seenClientKeys = new Set();
 
       if (Array.isArray(targetItems) && targetItems.length > 0) {
+        let idx = 0;
         targetItems.forEach(itemObj => {
           const rawLine = typeof itemObj === 'string' ? itemObj : itemObj.line;
           const line = stripLeadingEmojis(rawLine);
+          const dedupKey = normalizeTargetKeyClient(line);
+          if (!dedupKey || seenClientKeys.has(dedupKey)) return;
+          seenClientKeys.add(dedupKey);
+
           const distKm = itemObj && itemObj.distKm ? itemObj.distKm : 0;
           const etaMin = itemObj && itemObj.etaMin ? itemObj.etaMin : 0;
           const ring = itemObj && typeof itemObj.ring === 'number' ? itemObj.ring : null;
@@ -1608,7 +1815,8 @@
             : (!isClearLine && ring === 0 ? `<span class="target-distance-chip">Над городом</span>` : '');
 
           const item = document.createElement('div');
-          item.className = 'target-row-card';
+          item.className = 'target-row-card stagger-item';
+          item.style.setProperty('--stagger-idx', idx++);
           item.innerHTML = `
             <div class="target-row-left">
               <div class="target-vector-icon ${toneClass}">${iconSvg}</div>
@@ -1618,7 +1826,7 @@
           `;
           list.appendChild(item);
         });
-        return;
+        if (list.children.length > 0) return;
       }
 
       const lines = (rawText || '')
@@ -1626,9 +1834,18 @@
         .map(l => stripLeadingEmojis(l))
         .filter(Boolean);
 
-      if (lines.length === 0) {
+      const uniqueLines = [];
+      lines.forEach(ln => {
+        const key = normalizeTargetKeyClient(ln);
+        if (key && !seenClientKeys.has(key)) {
+          seenClientKeys.add(key);
+          uniqueLines.push(ln);
+        }
+      });
+
+      if (uniqueLines.length === 0) {
         list.innerHTML = `
-          <div class="target-row-card">
+          <div class="target-row-card stagger-item">
             <div class="target-row-left">
               <div class="target-vector-icon tone-safe">${SVG_ICONS.shieldCheck}</div>
               <span>В Киевской и соседних областях активных БпЛА и ракет не зафиксировано</span>
@@ -1637,12 +1854,13 @@
         return;
       }
 
-      lines.forEach(line => {
+      uniqueLines.forEach((line, idx) => {
         const isClearLine = /(чисто|не зафіксовано|не зафиксировано|цілей немає|локаційно не|дальние пуски|сейчас нет)/i.test(line);
         const toneClass = isClearLine ? 'tone-safe' : baseTone;
         const iconSvg = isClearLine ? SVG_ICONS.shieldCheck : SVG_ICONS.navigationArrow;
         const item = document.createElement('div');
-        item.className = 'target-row-card';
+        item.className = 'target-row-card stagger-item';
+        item.style.setProperty('--stagger-idx', idx);
         item.innerHTML = `
           <div class="target-row-left">
             <div class="target-vector-icon ${toneClass}">${iconSvg}</div>
@@ -1664,7 +1882,6 @@
       const oblastPill = document.getElementById('oblastUavPill');
       const oblastStatusText = document.getElementById('oblastStatusText');
       const oblastLevelLabel = document.getElementById('oblastLevelLabel');
-      const num = document.getElementById('chanceNumber');
       const label = document.getElementById('chanceLabel');
       const fill = document.getElementById('scaleFill');
       const comment = document.getElementById('heroComment');
@@ -1674,7 +1891,7 @@
       const footer = document.getElementById('updateFooter');
 
       const chanceVal = Math.min(100, Math.max(0, parseInt(data.chance, 10) || 10));
-      num.innerText = `${chanceVal}%`;
+      animateChanceCounter(chanceVal);
       fill.style.width = `${Math.max(4, chanceVal)}%`;
 
       comment.innerText = stripLeadingEmojis(data.comment) || 'В Киеве и всех 7 районах Киевской области спокойно.';
@@ -1712,18 +1929,18 @@
 
       if (data.state === 'ALARM') {
         if (data.level === 'RED') {
-          hero.className = 'm3-surface-card hero-state-red';
+          hero.className = 'm3-surface-card hero-state-red m3-anim-enter-2';
           badgeIcon.innerHTML = SVG_ICONS.rocketAlert;
           badgeText.innerText = 'КИЕВ — КРАСНАЯ ТРЕВОГА (РАКЕТНАЯ)';
         } else {
-          hero.className = 'm3-surface-card hero-state-yellow';
+          hero.className = 'm3-surface-card hero-state-yellow m3-anim-enter-2';
           badgeIcon.innerHTML = SVG_ICONS.radarWarn;
           badgeText.innerText = 'КИЕВ — ЖЁЛТАЯ ТРЕВОГА (БпЛА)';
         }
         label.innerHTML = 'Вероятность<br>скорого отбоя';
         timeEyebrow.innerText = 'Прогноз отбоя';
       } else {
-        hero.className = 'm3-surface-card hero-state-safe';
+        hero.className = 'm3-surface-card hero-state-safe m3-anim-enter-2';
         badgeIcon.innerHTML = SVG_ICONS.shieldCheck;
         badgeText.innerText = 'КИЕВ — ЧИСТОЕ НЕБО / ОТБОЙ';
         label.innerHTML = 'Вероятность<br>тревоги в Киеве';
@@ -1834,7 +2051,7 @@
 
       const steps = [
         { pct: 36, text: 'Проверка официального статуса Київ Цифровий / КМДА...', chip: '@KyivCityOfficial • @kpszsu • @airAlarm_Kyiv' },
-        { pct: 68, text: 'Анализ 20 радарных каналов и фильтрация спама...', chip: '@kyiv_airdef • @kyivnebomonitoring • @PpoUaKyiv' },
+        { pct: 68, text: 'Анализ 20 радарных каналов и фильтрация дубликатов...', chip: '@kyiv_airdef • @kyivnebomonitoring • @PpoUaKyiv' },
         { pct: 92, text: 'Порайонная проверка Киевской области (7 районов)...', chip: 'Вышгород • Бровары • Борисполь • Буча • Фастов • Обухов' }
       ];
 
