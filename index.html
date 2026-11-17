@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Киев Радар — ИИ Мониторинг</title>
+  <style>
+    :root {
+      --bg: #0b0a10;
+      --surface: #15131e;
+      --surface-cont: #1e1b29;
+      --surface-high: #282436;
+      --outline: rgba(255, 255, 255, 0.08);
+      --outline-glow: rgba(255, 255, 255, 0.16);
+
+      --on-surface: #f2ecf9;
+      --on-variant: #9e96ab;
+
+      /* Палитра состояний M3 Expressive */
+      --green: #81c784;
+      --green-light: #b9f6ca;
+      --green-cont: #0b3d14;
+      --green-glow: rgba(11, 61, 20, 0.45);
+
+      --yellow: #ffd54f;
+      --yellow-light: #ffe57f;
+      --yellow-cont: #523800;
+      --yellow-glow: rgba(82, 56, 0, 0.5);
+
+      --red: #ff8a80;
+      --red-light: #ffdad6;
+      --red-cont: #7d0007;
+      --red-glow: rgba(125, 0, 7, 0.55);
+
+      --primary: #d0bcff;
+      --primary-cont: #3f2e66;
+      --on-primary: #261059;
+
+      --radius-pill: 9999px;
+      --radius-xl: 26px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI", sans-serif;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100dvh;
+      background-color: var(--bg);
+      color: var(--on-surface);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      overflow-x: hidden;
+    }
+
+    .app-shell {
+      width: 100%;
+      max-width: 440px;
+      min-height: 100dvh;
+      padding: 12px 14px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+    .app-shell::-webkit-scrollbar { display: none; }
+
+    /* ШАПКА */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2px 4px;
+    }
+
+    .top-left {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
+    .brand-title {
+      font-size: 1.4rem;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+
+    .live-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--on-variant);
+      background: var(--surface);
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--outline);
+    }
+
+    .live-pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulseDot 2s infinite;
+    }
+    .live-pulse-dot.scanning {
+      background: var(--primary);
+      box-shadow: 0 0 10px var(--primary);
+      animation: pulseDot 0.6s infinite;
+    }
+    .live-pulse-dot.offline {
+      background: var(--yellow);
+      box-shadow: 0 0 8px var(--yellow);
+    }
+    @keyframes pulseDot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.45; transform: scale(0.82); }
+    }
+
+    .btn-refresh {
+      height: 34px;
+      padding: 0 13px;
+      border-radius: var(--radius-pill);
+      background: var(--surface);
+      border: 1px solid var(--outline);
+      color: var(--on-surface);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-refresh:active {
+      background: var(--surface-high);
+      transform: scale(0.95);
+    }
+    .btn-refresh.spinning .refresh-icon {
+      display: inline-block;
+      animation: spin 0.85s linear infinite;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* КАРТОЧКА 1: АКТУАЛЬНАЯ ОБСТАНОВКА И ШКАЛА */
+    .m3-card {
+      background: var(--surface);
+      border: 1px solid var(--outline);
+      border-radius: var(--radius-xl);
+      padding: 16px 16px 15px;
+      transition: all 0.35s cubic-bezier(0.2, 0, 0, 1);
+      position: relative;
+      overflow: hidden;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    .card-safe {
+      background: radial-gradient(circle at 50% -10%, var(--green-glow), var(--surface) 80%);
+      border-color: rgba(129, 199, 132, 0.35);
+    }
+    .card-alarm-yellow {
+      background: radial-gradient(circle at 50% -10%, var(--yellow-glow), var(--surface) 80%);
+      border-color: rgba(255, 213, 79, 0.42);
+    }
+    .card-alarm-red {
+      background: radial-gradient(circle at 50% -10%, var(--red-glow), var(--surface) 80%);
+      border-color: rgba(255, 138, 128, 0.5);
+      animation: alertBorderBreathe 2.8s infinite alternate;
+    }
+    @keyframes alertBorderBreathe {
+      from { border-color: rgba(255, 138, 128, 0.35); box-shadow: 0 0 14px rgba(125, 0, 7, 0.2); }
+      to { border-color: rgba(255, 138, 128, 0.7); box-shadow: 0 0 24px rgba(255, 138, 128, 0.32); }
+    }
+
+    .status-badges-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      border-radius: var(--radius-pill);
+      font-size: 0.81rem;
+      font-weight: 900;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+    }
+    .card-safe .status-badge { background: var(--green-cont); color: var(--green-light); }
+    .card-alarm-yellow .status-badge { background: var(--yellow-cont); color: var(--yellow-light); }
+    .card-alarm-red .status-badge { background: var(--red-cont); color: var(--red-light); }
+
+    .official-source-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: var(--primary);
+      background: rgba(208, 188, 255, 0.1);
+      border: 1px solid rgba(208, 188, 255, 0.24);
+      padding: 3px 10px;
+      border-radius: var(--radius-pill);
+    }
+
+    /* ПЛАШКА СТАТУСА БПЛА В ОБЛАСТИ */
+    .oblast-uav-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      font-size: 0.72rem;
+      font-weight: 800;
+      border: 1px solid var(--outline);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--on-surface);
+      text-align: center;
+    }
+    .oblast-uav-pill.uav-active {
+      background: rgba(255, 213, 79, 0.18);
+      border-color: rgba(255, 213, 79, 0.5);
+      color: var(--yellow-light);
+    }
+    .oblast-uav-pill.uav-clear {
+      background: rgba(129, 199, 132, 0.12);
+      border-color: rgba(129, 199, 132, 0.3);
+      color: var(--green-light);
+    }
+
+    .chance-hero {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 4px 0 8px;
+    }
+    .chance-number {
+      font-size: 3.3rem;
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -2px;
+    }
+    .card-safe .chance-number { color: var(--green-light); }
+    .card-alarm-yellow .chance-number { color: var(--yellow-light); }
+    .card-alarm-red .chance-number { color: var(--red-light); }
+
+    .chance-label {
+      font-size: 0.67rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--on-variant);
+      margin-top: 4px;
+    }
+
+    /* ВОЛНИСТАЯ АНИМИРОВАННАЯ ШКАЛА */
+    .scale-wrapper {
+      width: 100%;
+      margin: 4px 0 8px;
+    }
+
+    .scale-track {
+      width: 100%;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-pill);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scale-fill-wavy {
+      height: 100%;
+      border-radius: var(--radius-pill);
+      position: relative;
+      overflow: hidden;
+      transition: width 0.7s cubic-bezier(0.34, 1.3, 0.64, 1);
+    }
+
+    .scale-fill-wavy::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 12' preserveAspectRatio='none'%3E%3Cpath d='M0,6 C5,0 15,12 20,6 C25,0 35,12 40,6 L40,12 L0,12 Z' fill='rgba(255,255,255,0.38)'/%3E%3C/svg%3E");
+      background-size: 36px 100%;
+      animation: waveScroll 1.4s linear infinite;
+    }
+    @keyframes waveScroll {
+      0% { background-position-x: 0; }
+      100% { background-position-x: 36px; }
+    }
+
+    .card-safe .scale-fill-wavy { background: linear-gradient(90deg, #4caf50, #81c784); }
+    .card-alarm-yellow .scale-fill-wavy { background: linear-gradient(90deg, #ffb300, #ffe082); }
+    .card-alarm-red .scale-fill-wavy { background: linear-gradient(90deg, #e53935, #ff8a80); }
+
+    .scale-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.62rem;
+      font-weight: 700;
+      color: var(--on-variant);
+      margin-top: 4px;
+      padding: 0 2px;
+    }
+
+    .hero-comment {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.36;
+      text-align: center;
+      margin-top: 4px;
+      white-space: pre-line;
+    }
+
+    /* КАРТОЧКА 2: СПРОСИТЬ У ИИ */
+    .ai-ask-card {
+      background: linear-gradient(160deg, rgba(63, 46, 102, 0.32), var(--surface-cont) 75%);
+      border: 1px solid rgba(208, 188, 255, 0.22);
+      border-radius: var(--radius-lg);
+      padding: 15px 15px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .card-eyebrow {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: 0.7px;
+      color: var(--on-variant);
+    }
+
+    .quick-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .chip-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--outline-glow);
+      color: var(--on-surface);
+      padding: 6px 11px;
+      border-radius: var(--radius-pill);
+      font-size: 0.73rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+    .chip-btn:active {
+      background: var(--primary);
+      color: var(--on-primary);
+      transform: scale(0.96);
+    }
+
+    .ask-input-row {
+      display: flex;
+      gap: 7px;
+      align-items: center;
+    }
+
+    .ask-input {
+      flex: 1;
+      background: var(--surface);
+      border: 1px solid var(--outline-glow);
+      border-radius: var(--radius-pill);
+      color: #ffffff;
+      padding: 10px 14px;
+      font-size: 0.86rem;
+      outline: none;
+    }
+    .ask-input:focus {
+      border-color: var(--primary);
+    }
+
+    .btn-ask-send {
+      height: 39px;
+      padding: 0 16px;
+      border-radius: var(--radius-pill);
+      border: none;
+      background: var(--primary);
+      color: var(--on-primary);
+      font-size: 0.82rem;
+      font-weight: 900;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: all 0.2s;
+    }
+    .btn-ask-send:active {
+      opacity: 0.85;
+      transform: scale(0.96);
+    }
+    .btn-ask-send:disabled {
+      opacity: 0.5;
+      cursor: default;
+    }
+
+    .ai-answer-box {
+      background: rgba(15, 13, 22, 0.65);
+      border: 1px solid var(--outline);
+      border-radius: var(--radius-md);
+      padding: 12px 13px;
+      font-size: 0.88rem;
+      line-height: 1.42;
+      color: #ffffff;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    /* ВЫДЕЛЕННЫЕ БОЛЬШИЕ ЧИСЛА ВРЕМЕНИ */
+    .time-digits-container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: 7px;
+      margin: 4px 0 6px;
+      line-height: 1.15;
+    }
+
+    .time-prefix {
+      font-size: 1.0rem;
+      font-weight: 700;
+      color: var(--on-variant);
+    }
+
+    .time-no-threat-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.94rem;
+      font-weight: 800;
+      color: var(--green-light);
+      background: rgba(129, 199, 132, 0.1);
+      border: 1px solid rgba(129, 199, 132, 0.28);
+      padding: 8px 13px;
+      border-radius: var(--radius-md);
+      line-height: 1.3;
+    }
+
+    .time-num {
+      display: inline-block;
+      font-size: 1.85rem;
+      font-weight: 900;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+      background: rgba(255, 255, 255, 0.09);
+      padding: 2px 10px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--outline-glow);
+      margin: 2px 2px;
+      vertical-align: baseline;
+    }
+
+    .ai-answer-box .time-num {
+      font-size: 1.45rem;
+      padding: 1px 8px;
+      color: var(--primary);
+      border-color: rgba(208, 188, 255, 0.35);
+    }
+
+    /* КАРТОЧКА 3: ПРОГНОЗ ВРЕМЕНИ */
+    .time-card {
+      background: var(--surface-cont);
+      border: 1px solid var(--outline);
+      border-radius: var(--radius-lg);
+      padding: 15px 16px;
+    }
+
+    .time-subtext {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--on-variant);
+      line-height: 1.32;
+      margin-top: 4px;
+    }
+
+    /* КАРТОЧКА 4: ЧТО ЛЕТИТ / ВОКРУГ КИЕВА */
+    .targets-card {
+      background: var(--surface-cont);
+      border: 1px solid var(--outline);
+      border-radius: var(--radius-lg);
+      padding: 15px 16px;
+    }
+
+    .target-list {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-top: 6px;
+    }
+
+    .target-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: var(--surface-high);
+      border: 1px solid var(--outline);
+      padding: 10px 13px;
+      border-radius: var(--radius-md);
+      font-size: 0.87rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.3;
+      word-break: break-word;
+      overflow-wrap: anywhere;
+    }
+
+    .target-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+    }
+
+    .target-dist-tag {
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: var(--primary);
+      background: rgba(208, 188, 255, 0.12);
+      border: 1px solid rgba(208, 188, 255, 0.25);
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .target-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .dot-safe { background: var(--green); box-shadow: 0 0 6px var(--green); }
+    .dot-yellow { background: var(--yellow); box-shadow: 0 0 6px var(--yellow); }
+    .dot-red { background: var(--red); box-shadow: 0 0 6px var(--red); }
+
+    /* СТРОКА ОБНОВЛЕНИЯ */
+    .update-footer {
+      text-align: center;
+      padding: 4px 4px 6px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--on-variant);
+      letter-spacing: 0.2px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-shell">
+
+    <!-- ШАПКА -->
+    <div class="top-bar">
+      <div class="top-left">
+        <div class="brand-title">Киев</div>
+        <div class="live-status">
+          <div class="live-pulse-dot" id="liveDot"></div>
+          <span id="liveText">Київ Цифровий + ТГК</span>
+        </div>
+      </div>
+      <button class="btn-refresh" id="btnScanNow" onclick="fetchRadarStatus(true)">
+        <span class="refresh-icon">🔄</span>
+        <span>Обновить</span>
+      </button>
+    </div>
+
+    <!-- КАРТОЧКА 1: АКТУАЛЬНАЯ ОБСТАНОВКА НА ЭКРАНЕ -->
+    <div class="m3-card card-safe" id="heroCard">
+      <div class="status-badges-wrap">
+        <div class="status-badge" id="statusBadge">🟢 ЧИСТОЕ НЕБО / ОТБОЙ</div>
+        <div class="official-source-pill" id="officialStatusPill">📲 Київ Цифровий / КМДА: Тривоги немає</div>
+        <div class="oblast-uav-pill uav-clear" id="oblastUavPill">🛡️ В Киевской области: БпЛА не фиксируются</div>
+      </div>
+
+      <div class="chance-hero">
+        <div class="chance-number" id="chanceNumber">--%</div>
+        <div class="chance-label" id="chanceLabel">Вероятность тревоги</div>
+      </div>
+
+      <div class="scale-wrapper">
+        <div class="scale-track">
+          <div class="scale-fill-wavy" id="scaleFill" style="width: 12%;"></div>
+        </div>
+        <div class="scale-labels">
+          <span>0%</span>
+          <span>50%</span>
+          <span>100%</span>
+        </div>
+      </div>
+
+      <div class="hero-comment" id="heroComment">Подключение к серверу анализа (Redmi 9)...</div>
+    </div>
+
+    <!-- КАРТОЧКА 2: СПРОСИТЬ У ИИ -->
+    <div class="ai-ask-card">
+      <div class="card-eyebrow" style="color: var(--primary);">Спросить у ИИ по обстановке</div>
+
+      <div class="quick-chips">
+        <button class="chip-btn" onclick="askPresetQuestion('Есть ли сейчас БпЛА в Киевской области и вокруг Киева?')">Есть ли БпЛА в области?</button>
+        <button class="chip-btn" onclick="askPresetQuestion('Когда будет возможная тревога в Киеве?')">Когда будет тревога?</button>
+        <button class="chip-btn" onclick="askPresetQuestion('Что сейчас летит и какие направления?')">Что сейчас летит?</button>
+      </div>
+
+      <div class="ask-input-row">
+        <input
+          type="text"
+          id="userQuestionInput"
+          class="ask-input"
+          placeholder="Спросите: есть ли БпЛА в области, когда тревога..."
+          onkeydown="if(event.key==='Enter') handleUserAsk()"
+        />
+        <button class="btn-ask-send" id="btnAskSend" onclick="handleUserAsk()">Спросить</button>
+      </div>
+
+      <div class="ai-answer-box" id="aiAnswerBox">
+        Нажмите на быстрый вопрос выше или напишите свой — сервер на Python сверит данные Київ Цифровий / КМДА, Воздушных Сил и мониторинговых радаров без рекламы и лишних новостей.
+      </div>
+    </div>
+
+    <!-- КАРТОЧКА 3: ПРОГНОЗ ВРЕМЕНИ (ТОЛЬКО ЕСЛИ ЕСТЬ ЦЕЛИ ИЛИ ТРЕВОГА) -->
+    <div class="time-card">
+      <div class="card-eyebrow">
+        <span id="timeCardEyebrow">Прогноз времени</span>
+        <span id="closestDistLabel" style="color: var(--primary);"></span>
+      </div>
+      <div class="time-digits-container" id="timeDigitsRow">
+        <span class="time-prefix">Проверка воздушного пространства...</span>
+      </div>
+      <div class="time-subtext" id="timeSubText">Расчёт времени выполняется только при наличии зафиксированных целей</div>
+    </div>
+
+    <!-- КАРТОЧКА 4: ЧТО ЛЕТИТ / ОБСТАНОВКА ВОКРУГ КИЕВА -->
+    <div class="targets-card">
+      <div class="card-eyebrow">
+        <span>Что летит / Вокруг Киева и область</span>
+        <span id="sectorScopeLabel">Анти-спам фильтр активен</span>
+      </div>
+      <div class="target-list" id="targetList"></div>
+    </div>
+
+    <!-- ВРЕМЯ ОБНОВЛЕНИЯ -->
+    <div class="update-footer" id="updateFooter">
+      Информация обновлена в --:-- --.--.----
+    </div>
+
+  </div>
+
+  <script>
+    // URL вашего Python-сервера на Redmi 9 (через Cloudflare Tunnel).
+    // Для локальной проверки можно открыть страницу с ?api=http://127.0.0.1:8000
+    const DEFAULT_API_BASE_URL = 'https://testaaaaaaaradar.me';
+    const CACHE_KEY = 'kyiv_radar_ui_cache_v1';
+
+    let activeData = null;
+    let isLoading = false;
+
+    function getApiBaseUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const fromQuery = params.get('api');
+      if (fromQuery) {
+        const clean = fromQuery.replace(/\/+$/, '');
+        localStorage.setItem('kyiv_radar_api_url', clean);
+        return clean;
+      }
+      const saved = localStorage.getItem('kyiv_radar_api_url');
+      if (saved && !DEFAULT_API_BASE_URL.includes('YOUR-CLOUDFLARE-TUNNEL')) {
+        return DEFAULT_API_BASE_URL.replace(/\/+$/, '');
+      }
+      return (saved || DEFAULT_API_BASE_URL).replace(/\/+$/, '');
+    }
+
+    function escapeHtml(s) {
+      return (s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    function formatUpdateTimestamp(ts) {
+      if (!ts) return 'Информация обновлена только что';
+      const d = new Date(ts);
+      const pad = (n) => String(n).padStart(2, '0');
+      return `Информация обновлена в ${pad(d.getHours())}:${pad(d.getMinutes())} ${pad(d.getDate())}.${pad(d.getMonth() + 1)}.${d.getFullYear()}`;
+    }
+
+    function formatTextWithBigTimes(text) {
+      const safe = escapeHtml(text || '');
+      return safe.replace(/(\b\d{1,2}:\d{2}\b)/g, '<span class="time-num">$1</span>').replace(/\n/g, '<br>');
+    }
+
+    function renderTimeDisplay(text, hasActiveThreats) {
+      const row = document.getElementById('timeDigitsRow');
+      if (!hasActiveThreats || /спрогнозировать невозможно|целей нет/i.test(text || '')) {
+        row.innerHTML = `<div class="time-no-threat-badge">🛡️ Угроз нет — время тревоги спрогнозировать невозможно</div>`;
+        return;
+      }
+
+      const safe = escapeHtml(text);
+      const rangeMatch = safe.match(/(?:от\s+)?(\d{1,2}:\d{2})\s*(?:до|-|–|—)\s*(\d{1,2}:\d{2})(.*)/i);
+      if (rangeMatch) {
+        const from = rangeMatch[1];
+        const to = rangeMatch[2];
+        const extra = rangeMatch[3].trim();
+        row.innerHTML = `
+          <span class="time-prefix">от</span>
+          <span class="time-num">${from}</span>
+          <span class="time-prefix">до</span>
+          <span class="time-num">${to}</span>
+          ${extra ? `<span class="time-prefix" style="font-size:0.88rem; margin-left:4px;">${extra}</span>` : ''}
+        `;
+        return;
+      }
+
+      if (/\b\d{1,2}:\d{2}\b/.test(safe)) {
+        row.innerHTML = safe.replace(/(\b\d{1,2}:\d{2}\b)/g, '<span class="time-num">$1</span>');
+        return;
+      }
+
+      row.innerHTML = `<span class="time-prefix" style="font-size: 1.05rem; font-weight:800; color:#fff;">${safe}</span>`;
+    }
+
+    function renderTargetList(targetItems, rawText, state, level, hasThreats) {
+      const list = document.getElementById('targetList');
+      list.innerHTML = '';
+
+      const dotClass = (state === 'ALARM' && level === 'RED') ? 'dot-red' : ((state === 'ALARM' || hasThreats) ? 'dot-yellow' : 'dot-safe');
+
+      if (Array.isArray(targetItems) && targetItems.length > 0) {
+        targetItems.forEach(itemObj => {
+          const line = typeof itemObj === 'string' ? itemObj : itemObj.line;
+          const distKm = itemObj && itemObj.distKm ? itemObj.distKm : 0;
+          const etaMin = itemObj && itemObj.etaMin ? itemObj.etaMin : 0;
+          const ring = itemObj && typeof itemObj.ring === 'number' ? itemObj.ring : null;
+
+          const isClearLine = /(чисто|не зафіксовано|не зафиксировано|цілей немає|локаційно не)/i.test(line);
+          const itemDot = isClearLine ? 'dot-safe' : (ring !== null && ring <= 3 ? 'dot-yellow' : dotClass);
+          const distBadge = (!isClearLine && distKm > 10)
+            ? `<span class="target-dist-tag">~${distKm} км • ~${etaMin} мин</span>`
+            : (!isClearLine && ring === 0 ? `<span class="target-dist-tag">Над городом</span>` : '');
+
+          const item = document.createElement('div');
+          item.className = 'target-item';
+          item.innerHTML = `
+            <div class="target-left">
+              <span class="target-dot ${itemDot}"></span>
+              <span>${escapeHtml(line)}</span>
+            </div>
+            ${distBadge}
+          `;
+          list.appendChild(item);
+        });
+        return;
+      }
+
+      const lines = (rawText || '')
+        .split('\n')
+        .map(l => l.replace(/^[-—•*⚡❗️⚠️🚀🛵🛸🎯▪️▫️\s]+/, '').trim())
+        .filter(Boolean);
+
+      if (lines.length === 0) {
+        list.innerHTML = `
+          <div class="target-item">
+            <div class="target-left">
+              <span class="target-dot dot-safe"></span>
+              <span>В Киевской и соседних областях активных БпЛА и ракет не зафиксировано</span>
+            </div>
+          </div>`;
+        return;
+      }
+
+      lines.forEach(line => {
+        const isClearLine = /(чисто|не зафіксовано|не зафиксировано|цілей немає|локаційно не|дальние пуски)/i.test(line);
+        const item = document.createElement('div');
+        item.className = 'target-item';
+        item.innerHTML = `
+          <div class="target-left">
+            <span class="target-dot ${isClearLine ? 'dot-safe' : dotClass}"></span>
+            <span>${escapeHtml(line)}</span>
+          </div>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    function renderScreen(data) {
+      if (!data) return;
+      activeData = data;
+
+      const hero = document.getElementById('heroCard');
+      const badge = document.getElementById('statusBadge');
+      const officialPill = document.getElementById('officialStatusPill');
+      const oblastPill = document.getElementById('oblastUavPill');
+      const num = document.getElementById('chanceNumber');
+      const label = document.getElementById('chanceLabel');
+      const fill = document.getElementById('scaleFill');
+      const comment = document.getElementById('heroComment');
+      const timeEyebrow = document.getElementById('timeCardEyebrow');
+      const closestDistLabel = document.getElementById('closestDistLabel');
+      const timeSub = document.getElementById('timeSubText');
+      const footer = document.getElementById('updateFooter');
+
+      const chanceVal = Math.min(100, Math.max(0, parseInt(data.chance, 10) || 12));
+      num.innerText = `${chanceVal}%`;
+      fill.style.width = `${Math.max(4, chanceVal)}%`;
+
+      comment.innerText = data.comment || 'В Киеве и соседних секторах спокойно.';
+      timeSub.innerText = data.timeSub || 'Расчёт времени возможен только при фиксации целей или пусков';
+      footer.innerText = formatUpdateTimestamp(data.updatedAt);
+      closestDistLabel.innerText = data.closestSummary || '';
+
+      officialPill.innerText = data.officialText || (
+        data.state === 'ALARM'
+          ? '📲 Київ Цифровий / КМДА: У Києві тривога'
+          : '📲 Київ Цифровий / КМДА: Тривоги немає'
+      );
+
+      if (data.uavInOblast) {
+        oblastPill.className = 'oblast-uav-pill uav-active';
+        oblastPill.innerText = data.oblastStatusText || '🛸 В Киевской области: зафиксированы цели';
+      } else if (data.uavInNeighbors) {
+        oblastPill.className = 'oblast-uav-pill uav-active';
+        oblastPill.innerText = data.oblastStatusText || '⚠️ На подступах (соседние обл.): есть цели';
+      } else {
+        oblastPill.className = 'oblast-uav-pill uav-clear';
+        oblastPill.innerText = data.oblastStatusText || '🛡️ В Киевской области: чисто, БпЛА нет';
+      }
+
+      const hasActiveThreats = (data.state === 'ALARM') || Boolean(data.uavInOblast) || Boolean(data.uavInNeighbors) || Boolean(data.hasDistantLaunches) || (data.targetCount > 0);
+      renderTimeDisplay(data.timeText, hasActiveThreats);
+      renderTargetList(data.targetItems, data.targets, data.state, data.level, data.uavInOblast || data.uavInNeighbors);
+
+      if (data.state === 'ALARM') {
+        if (data.level === 'RED') {
+          hero.className = 'm3-card card-alarm-red';
+          badge.innerText = '🚨 КИЕВ — ВОЗДУШНАЯ ТРЕВОГА (РАКЕТНАЯ)';
+        } else {
+          hero.className = 'm3-card card-alarm-yellow';
+          badge.innerText = '🚨 КИЕВ — ВОЗДУШНАЯ ТРЕВОГА (БпЛА)';
+        }
+        label.innerText = 'Вероятность скорого отбоя';
+        timeEyebrow.innerText = 'Прогноз отбоя';
+      } else {
+        hero.className = 'm3-card card-safe';
+        badge.innerText = '🟢 КИЕВ — ЧИСТОЕ НЕБО / ОТБОЙ';
+        label.innerText = 'Вероятность тревоги в Киеве';
+        timeEyebrow.innerText = hasActiveThreats ? 'Окно возможной тревоги (по целям)' : 'Прогноз времени тревоги';
+      }
+    }
+
+    async function fetchRadarStatus(forceScan = false) {
+      if (isLoading) return;
+      isLoading = true;
+
+      const dot = document.getElementById('liveDot');
+      const liveText = document.getElementById('liveText');
+      const btnScan = document.getElementById('btnScanNow');
+
+      dot.classList.remove('offline');
+      dot.classList.add('scanning');
+      btnScan.classList.add('spinning');
+      liveText.innerText = forceScan ? 'Скан КМДА + ТГК...' : 'Синхронизация...';
+
+      const baseUrl = getApiBaseUrl();
+      if (baseUrl.includes('YOUR-CLOUDFLARE-TUNNEL')) {
+        dot.classList.remove('scanning');
+        dot.classList.add('offline');
+        btnScan.classList.remove('spinning');
+        liveText.innerText = 'Нужен URL сервера';
+        document.getElementById('heroComment').innerText = 'Укажите URL туннеля Cloudflare в DEFAULT_API_BASE_URL в index.html (или ?api=URL).';
+        isLoading = false;
+        return;
+      }
+
+      try {
+        const endpoint = forceScan ? `${baseUrl}/api/scan` : `${baseUrl}/api/status`;
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 20000);
+        const res = await fetch(endpoint, {
+          method: forceScan ? 'POST' : 'GET',
+          signal: ctrl.signal,
+          cache: 'no-store'
+        });
+        clearTimeout(timer);
+
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+
+        localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+        renderScreen(data);
+        liveText.innerText = 'Київ Цифровий + ТГК';
+      } catch (e) {
+        dot.classList.add('offline');
+        liveText.innerText = 'Сервер оффлайн (кэш)';
+        if (!activeData) {
+          document.getElementById('heroComment').innerText = 'Нет связи с Python-сервером на Redmi 9. Проверьте Termux и Cloudflare Tunnel.';
+        }
+      } finally {
+        isLoading = false;
+        dot.classList.remove('scanning');
+        btnScan.classList.remove('spinning');
+      }
+    }
+
+    async function askPresetQuestion(qText) {
+      const input = document.getElementById('userQuestionInput');
+      input.value = qText;
+      await handleUserAsk();
+    }
+
+    async function handleUserAsk() {
+      const input = document.getElementById('userQuestionInput');
+      const btn = document.getElementById('btnAskSend');
+      const box = document.getElementById('aiAnswerBox');
+
+      const question = input.value.trim() || 'Есть ли сейчас БпЛА в Киевской области и когда возможна тревога?';
+      const baseUrl = getApiBaseUrl();
+
+      btn.disabled = true;
+      btn.innerText = 'Анализ...';
+      box.innerHTML = 'Сервер на Redmi 9 сверяет данные Київ Цифровий / КМДА и сводки радаров...';
+
+      try {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 20000);
+        const res = await fetch(`${baseUrl}/api/ask`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question }),
+          signal: ctrl.signal
+        });
+        clearTimeout(timer);
+
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const json = await res.json();
+
+        if (json.status) {
+          localStorage.setItem(CACHE_KEY, JSON.stringify(json.status));
+          renderScreen(json.status);
+        }
+        box.innerHTML = formatTextWithBigTimes(json.answer || 'Нет ответа от сервера.');
+      } catch (e) {
+        box.innerHTML = 'Не удалось подключиться к Python-серверу на Redmi 9. Убедитесь, что сервер и Cloudflare Tunnel запущены.';
+      } finally {
+        btn.disabled = false;
+        btn.innerText = 'Спросить';
+      }
+    }
+
+    function init() {
+      try {
+        const raw = localStorage.getItem(CACHE_KEY);
+        if (raw) {
+          renderScreen(JSON.parse(raw));
+        }
+      } catch (e) {}
+
+      fetchRadarStatus(false);
+      setInterval(() => fetchRadarStatus(false), 50000);
+
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) {
+          fetchRadarStatus(false);
+        }
+      });
+    }
+
+    init();
+  </script>
+</body>
+</html>
