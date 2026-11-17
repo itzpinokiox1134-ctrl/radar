@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="theme-color" content="#0f1115" />
   <title>Kyiv Air Alert</title>
+  <script>
+    // Мгновенная установка сохранённой темы ДО рендера страницы (исключает мигание при входе)
+    (function() {
+      try {
+        var saved = localStorage.getItem('kyiv_air_alert_m3_theme') || 'm3-dark';
+        document.documentElement.setAttribute('data-theme', saved);
+      } catch (e) {}
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700;800&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
@@ -133,6 +142,13 @@
       --elevation-1: 0 6px 20px rgba(20, 30, 45, 0.06);
     }
 
+    /* При смене темы временно отключаем разрозненные переходы, чтобы все блоки меняли цвет синхронно в 1 кадр без мигания */
+    html.theme-switching *,
+    html.theme-switching *::before,
+    html.theme-switching *::after {
+      transition: none !important;
+    }
+
     :root {
       --shape-pill: 9999px;
       --shape-xl: 32px;
@@ -160,7 +176,6 @@
       justify-content: center;
       align-items: flex-start;
       overflow-x: hidden;
-      transition: background-color 0.42s var(--spring-expressive), color 0.42s var(--spring-expressive);
     }
 
     svg.m3-icon {
@@ -178,18 +193,7 @@
     @keyframes m3CardEnter {
       0% {
         opacity: 0;
-        transform: translateY(18px) scale(0.975);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    @keyframes m3ItemSlideIn {
-      0% {
-        opacity: 0;
-        transform: translateY(10px) scale(0.98);
+        transform: translateY(16px) scale(0.98);
       }
       100% {
         opacity: 1;
@@ -207,16 +211,11 @@
       100% { box-shadow: var(--elevation-1), 0 0 0 8px rgba(226, 143, 136, 0); }
     }
 
-    .m3-anim-enter-1 { animation: m3CardEnter 0.55s var(--spring-expressive) 0.04s both; }
-    .m3-anim-enter-2 { animation: m3CardEnter 0.58s var(--spring-expressive) 0.1s both; }
-    .m3-anim-enter-3 { animation: m3CardEnter 0.62s var(--spring-expressive) 0.16s both; }
-    .m3-anim-enter-4 { animation: m3CardEnter 0.66s var(--spring-expressive) 0.22s both; }
-    .m3-anim-enter-5 { animation: m3CardEnter 0.7s var(--spring-expressive) 0.28s both; }
-
-    .stagger-item {
-      animation: m3ItemSlideIn 0.44s var(--spring-expressive) both;
-      animation-delay: calc(var(--stagger-idx, 0) * 45ms);
-    }
+    .m3-anim-enter-1 { animation: m3CardEnter 0.5s var(--spring-expressive) 0.02s both; }
+    .m3-anim-enter-2 { animation: m3CardEnter 0.54s var(--spring-expressive) 0.07s both; }
+    .m3-anim-enter-3 { animation: m3CardEnter 0.58s var(--spring-expressive) 0.12s both; }
+    .m3-anim-enter-4 { animation: m3CardEnter 0.62s var(--spring-expressive) 0.17s both; }
+    .m3-anim-enter-5 { animation: m3CardEnter 0.66s var(--spring-expressive) 0.22s both; }
 
     /* ===================== ПЕРВИЧНЫЙ ЭКРАН ЗАГРУЗКИ (ТОЛЬКО ПРИ ПЕРВОМ ВХОДЕ) ===================== */
     .initial-loader {
@@ -229,11 +228,11 @@
       align-items: center;
       justify-content: center;
       padding: 28px;
-      transition: opacity 0.48s var(--spring-expressive), transform 0.48s var(--spring-expressive), visibility 0.48s;
+      transition: opacity 0.42s var(--spring-expressive), transform 0.42s var(--spring-expressive), visibility 0.42s;
     }
     .initial-loader.hidden {
       opacity: 0;
-      transform: scale(1.03);
+      transform: scale(1.02);
       visibility: hidden;
       pointer-events: none;
     }
@@ -307,7 +306,7 @@
       width: 18%;
       background: var(--primary);
       border-radius: var(--shape-pill);
-      transition: width 0.36s var(--spring-expressive);
+      transition: width 0.32s var(--spring-expressive);
     }
 
     .loader-pill {
@@ -330,7 +329,7 @@
       -webkit-backdrop-filter: blur(5px);
       opacity: 0;
       visibility: hidden;
-      transition: opacity 0.36s var(--spring-expressive), visibility 0.36s;
+      transition: opacity 0.34s var(--spring-expressive), visibility 0.34s;
     }
     .drawer-backdrop.open {
       opacity: 1;
@@ -352,7 +351,7 @@
       flex-direction: column;
       gap: 15px;
       transform: translateX(-104%);
-      transition: transform 0.42s var(--spring-expressive), background-color 0.35s var(--spring-expressive);
+      transition: transform 0.38s var(--spring-expressive);
       box-shadow: var(--elevation-1);
       overflow-y: auto;
     }
@@ -430,13 +429,12 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: transform 0.24s var(--spring-bounce), background-color 0.2s, border-radius 0.24s;
+      transition: transform 0.24s var(--spring-bounce), border-radius 0.24s;
       flex-shrink: 0;
     }
     .icon-btn:active {
       transform: scale(0.88) rotate(90deg);
       border-radius: 14px;
-      background: var(--surface-3);
     }
 
     .drawer-label {
@@ -472,21 +470,16 @@
       justify-content: center;
       gap: 6px;
       cursor: pointer;
-      transition: all 0.28s var(--spring-bounce);
+      transition: transform 0.22s var(--spring-bounce);
     }
     .seg-theme-btn svg {
       width: 16px;
       height: 16px;
-      transition: transform 0.3s var(--spring-bounce);
     }
     .seg-theme-btn.active {
       background: var(--primary-container);
       color: var(--on-primary-container);
       font-weight: 800;
-      transform: scale(1.02);
-    }
-    .seg-theme-btn.active svg {
-      transform: rotate(-12deg) scale(1.1);
     }
     .seg-theme-btn:active {
       transform: scale(0.94);
@@ -511,13 +504,13 @@
       border: 1px solid var(--outline);
       text-decoration: none;
       color: var(--on-surface);
-      transition: transform 0.24s var(--spring-bounce), background-color 0.2s, border-color 0.2s, border-radius 0.24s;
+      transition: transform 0.22s var(--spring-bounce), border-radius 0.22s;
     }
     .source-card-link:hover, .source-card-link:active {
       background: var(--surface-3);
       border-color: var(--outline-variant);
       border-radius: 24px;
-      transform: translateX(4px) scale(1.01);
+      transform: translateX(4px);
     }
     .source-left {
       display: flex;
@@ -535,10 +528,6 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      transition: transform 0.24s var(--spring-bounce);
-    }
-    .source-card-link:hover .source-icon-box {
-      transform: scale(1.08);
     }
     .source-icon-box svg {
       width: 16px;
@@ -573,7 +562,6 @@
       flex-shrink: 0;
     }
 
-    /* Нижний блок версии в боковом меню */
     .drawer-version-footer {
       display: flex;
       align-items: center;
@@ -639,7 +627,6 @@
       border-radius: var(--shape-xl);
       padding: 8px 10px;
       box-shadow: var(--elevation-1);
-      transition: transform 0.3s var(--spring-expressive), background-color 0.35s;
     }
 
     .nav-trigger-btn {
@@ -655,7 +642,7 @@
       font-size: 0.78rem;
       font-weight: 700;
       cursor: pointer;
-      transition: transform 0.24s var(--spring-bounce), border-radius 0.24s var(--spring-expressive), background-color 0.2s;
+      transition: transform 0.22s var(--spring-bounce), border-radius 0.22s var(--spring-expressive);
       flex-shrink: 0;
     }
     .nav-trigger-btn:hover {
@@ -702,7 +689,6 @@
       border-radius: 50%;
       background: var(--safe-tone);
       flex-shrink: 0;
-      transition: background-color 0.3s, transform 0.3s;
     }
     .status-indicator-dot.scanning {
       background: var(--primary);
@@ -729,11 +715,8 @@
       font-size: 0.77rem;
       font-weight: 800;
       cursor: pointer;
-      transition: transform 0.24s var(--spring-bounce), border-radius 0.24s var(--spring-expressive), filter 0.2s;
+      transition: transform 0.22s var(--spring-bounce), border-radius 0.22s var(--spring-expressive);
       flex-shrink: 0;
-    }
-    .refresh-fab-btn:hover {
-      filter: brightness(1.06);
     }
     .refresh-fab-btn:active {
       transform: scale(0.91);
@@ -766,7 +749,6 @@
       border-radius: var(--shape-xl);
       padding: 18px;
       box-shadow: var(--elevation-1);
-      transition: transform 0.36s var(--spring-expressive), background 0.45s var(--spring-expressive), border-color 0.45s var(--spring-expressive), border-radius 0.36s var(--spring-expressive);
       position: relative;
       overflow: hidden;
     }
@@ -803,7 +785,6 @@
       font-weight: 800;
       letter-spacing: 0.3px;
       text-transform: uppercase;
-      transition: all 0.38s var(--spring-bounce);
     }
     .hero-state-safe .m3-state-pill {
       background: var(--safe-container-high);
@@ -839,7 +820,6 @@
       background: var(--surface-2);
       color: var(--on-surface-variant);
       border: 1px solid var(--outline);
-      transition: all 0.32s var(--spring-expressive);
     }
     .m3-tonal-chip svg {
       width: 14px;
@@ -867,7 +847,6 @@
     }
     .m3-tonal-chip.chip-safe svg { color: var(--safe-tone); }
 
-    /* Блок вероятности M3 Expressive */
     .hero-metric-row {
       display: flex;
       align-items: baseline;
@@ -881,7 +860,6 @@
       font-weight: 900;
       line-height: 0.95;
       letter-spacing: -2px;
-      transition: color 0.38s var(--spring-expressive), transform 0.35s var(--spring-bounce);
     }
     .hero-state-safe .chance-display { color: var(--safe-tone); }
     .hero-state-yellow .chance-display { color: var(--warn-tone); }
@@ -896,7 +874,6 @@
       text-align: right;
     }
 
-    /* Живая шкала прогресса M3 с мягким бликом */
     .m3-progress-container {
       width: 100%;
       margin: 6px 0 12px;
@@ -915,14 +892,14 @@
       border-radius: var(--shape-pill);
       position: relative;
       overflow: hidden;
-      transition: width 0.85s var(--spring-bounce), background-color 0.4s;
+      transition: width 0.75s var(--spring-bounce);
     }
     .m3-progress-indicator::after {
       content: '';
       position: absolute;
       inset: 0;
       width: 45%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.28), transparent);
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
       animation: m3ShimmerFlow 2.6s ease-in-out infinite;
     }
     .hero-state-safe .m3-progress-indicator { background: var(--safe-tone); }
@@ -948,7 +925,6 @@
       font-weight: 600;
       color: var(--on-surface);
       line-height: 1.42;
-      transition: background-color 0.3s;
     }
 
     /* ===================== ЗАГОЛОВОК СЕКЦИЙ КАРТОЧЕК ===================== */
@@ -982,7 +958,6 @@
       background: var(--surface-2);
       color: var(--primary);
       border: 1px solid var(--outline);
-      transition: all 0.3s var(--spring-expressive);
     }
 
     /* ===================== КАРТОЧКА 2: 7 РАЙОНОВ КИЕВСКОЙ ОБЛАСТИ ===================== */
@@ -1001,7 +976,7 @@
       justify-content: space-between;
       gap: 8px;
       cursor: pointer;
-      transition: transform 0.26s var(--spring-bounce), border-radius 0.26s var(--spring-expressive), background-color 0.3s, border-color 0.3s;
+      transition: transform 0.22s var(--spring-bounce), border-radius 0.22s var(--spring-expressive);
     }
     .district-tile:hover {
       transform: translateY(-2px);
@@ -1062,10 +1037,6 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      transition: transform 0.28s var(--spring-bounce);
-    }
-    .district-tile:hover .district-status-icon {
-      transform: scale(1.1);
     }
     .district-status-icon svg {
       width: 15px;
@@ -1108,7 +1079,6 @@
       border-radius: var(--shape-sm);
       border: 1px solid var(--outline-variant);
       letter-spacing: -0.4px;
-      transition: transform 0.25s var(--spring-bounce);
     }
     .no-threat-banner {
       display: inline-flex;
@@ -1123,7 +1093,6 @@
       padding: 10px 13px;
       border-radius: var(--shape-md);
       line-height: 1.35;
-      animation: m3ItemSlideIn 0.4s var(--spring-expressive) both;
     }
     .no-threat-banner svg {
       width: 18px;
@@ -1156,11 +1125,10 @@
       font-weight: 600;
       color: var(--on-surface);
       line-height: 1.35;
-      transition: transform 0.24s var(--spring-bounce), border-color 0.24s, border-radius 0.24s;
+      transition: transform 0.22s var(--spring-bounce);
     }
     .target-row-card:hover {
       transform: translateX(3px);
-      border-color: var(--outline-variant);
     }
     .target-row-left {
       display: flex;
@@ -1222,7 +1190,7 @@
       font-size: 0.74rem;
       font-weight: 700;
       cursor: pointer;
-      transition: transform 0.22s var(--spring-bounce), background-color 0.2s, color 0.2s, border-radius 0.22s;
+      transition: transform 0.2s var(--spring-bounce), border-radius 0.2s;
     }
     .m3-suggestion-chip:hover {
       background: var(--surface-3);
@@ -1251,7 +1219,6 @@
       font-size: 0.84rem;
       font-weight: 500;
       outline: none;
-      transition: border-color 0.25s, background-color 0.25s, transform 0.25s var(--spring-expressive);
     }
     .assistant-input:focus {
       border-color: var(--primary);
@@ -1271,7 +1238,7 @@
       gap: 6px;
       cursor: pointer;
       flex-shrink: 0;
-      transition: transform 0.24s var(--spring-bounce), border-radius 0.24s var(--spring-expressive), opacity 0.2s;
+      transition: transform 0.22s var(--spring-bounce), border-radius 0.22s, opacity 0.2s;
     }
     .assistant-send-btn:active {
       transform: scale(0.92);
@@ -1291,7 +1258,6 @@
       font-weight: 500;
       line-height: 1.46;
       color: var(--on-surface);
-      transition: all 0.3s var(--spring-expressive);
     }
     .assistant-response-surface .time-chip-digit {
       font-size: 1.15rem;
@@ -1564,9 +1530,15 @@
 
   <script>
     const DEFAULT_API_BASE_URL = 'https://consult-represent-consequently-estimates.trycloudflare.com';
-    const CACHE_KEY = 'kyiv_air_alert_m3_v16_cache';
+    const CACHE_KEY = 'kyiv_air_alert_m3_v17_cache';
     const THEME_KEY = 'kyiv_air_alert_m3_theme';
-    const SESSION_LOADED_KEY = 'kyiv_air_alert_session_loaded_v3';
+    const SESSION_LOADED_KEY = 'kyiv_air_alert_session_loaded_v4';
+
+    const THEME_META_COLORS = {
+      'm3-dark': '#0f1115',
+      'amoled': '#000000',
+      'light': '#f3f5f8'
+    };
 
     const SVG_ICONS = {
       shieldCheck: `<svg class="m3-icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>`,
@@ -1629,12 +1601,27 @@
       return (saved || DEFAULT_API_BASE_URL).replace(/\/+$/, '');
     }
 
+    // Бесшовное переключение темы без мигания
     function setAppTheme(themeName) {
-      document.documentElement.setAttribute('data-theme', themeName);
+      const root = document.documentElement;
+      root.classList.add('theme-switching');
+      root.setAttribute('data-theme', themeName);
       localStorage.setItem(THEME_KEY, themeName);
+
+      const metaTheme = document.querySelector('meta[name="theme-color"]');
+      if (metaTheme && THEME_META_COLORS[themeName]) {
+        metaTheme.setAttribute('content', THEME_META_COLORS[themeName]);
+      }
+
       ['m3-dark', 'amoled', 'light'].forEach(t => {
         const btn = document.getElementById(`themeBtn-${t}`);
         if (btn) btn.classList.toggle('active', t === themeName);
+      });
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          root.classList.remove('theme-switching');
+        });
       });
     }
 
@@ -1653,7 +1640,6 @@
         .trim();
     }
 
-    // Клиентская нормализация строк целей, чтобы на 100% исключить любые дубликаты
     function normalizeTargetKeyClient(str) {
       let s = stripLeadingEmojis(str).toLowerCase();
       s = s.replace(/^[^:]{2,32}:\s*/, '');
@@ -1673,7 +1659,7 @@
         return;
       }
 
-      const duration = 520;
+      const duration = 450;
       const startTime = performance.now();
 
       function tick(now) {
@@ -1701,38 +1687,59 @@
       return safe.replace(/(\b\d{1,2}:\d{2}\b)/g, '<span class="time-chip-digit">$1</span>').replace(/\n/g, '<br>');
     }
 
+    // Обновление плиток районов на месте без пересоздания DOM (никакого мигания при обновлении)
     function renderDistricts(districts) {
       const grid = document.getElementById('districtsGrid');
       const list = Array.isArray(districts) && districts.length > 0 ? districts : FALLBACK_DISTRICTS;
-      grid.innerHTML = '';
+
+      if (grid.children.length !== list.length) {
+        grid.innerHTML = '';
+        list.forEach(d => {
+          const card = document.createElement('div');
+          card.dataset.districtId = d.id;
+          card.innerHTML = `
+            <div class="district-text">
+              <span class="district-title"></span>
+              <span class="district-status"></span>
+            </div>
+            <div class="district-status-icon"></div>
+          `;
+          grid.appendChild(card);
+        });
+      }
 
       list.forEach((d, idx) => {
         const lvl = d.level === 'RED' ? 'RED' : (d.level === 'YELLOW' ? 'YELLOW' : 'SAFE');
         const iconSvg = lvl === 'RED' ? SVG_ICONS.rocketAlert : (lvl === 'YELLOW' ? SVG_ICONS.radarWarn : SVG_ICONS.shieldCheck);
-        const card = document.createElement('div');
-        card.className = `district-tile level-${lvl} stagger-item`;
-        card.style.setProperty('--stagger-idx', idx);
+        const card = grid.children[idx];
+        const nextClass = `district-tile level-${lvl}`;
+        if (card.className !== nextClass) card.className = nextClass;
         card.onclick = () => askPresetQuestion(`Какая сейчас обстановка в районе: ${d.name} (${d.center})?`);
-        card.innerHTML = `
-          <div class="district-text">
-            <span class="district-title">${escapeHtml(d.name)}</span>
-            <span class="district-status">${escapeHtml(d.statusText || d.center)}</span>
-          </div>
-          <div class="district-status-icon">${iconSvg}</div>
-        `;
-        grid.appendChild(card);
+
+        const titleEl = card.querySelector('.district-title');
+        const statusEl = card.querySelector('.district-status');
+        const iconEl = card.querySelector('.district-status-icon');
+        if (titleEl.textContent !== d.name) titleEl.textContent = d.name;
+        const stText = d.statusText || d.center;
+        if (statusEl.textContent !== stText) statusEl.textContent = stText;
+        if (iconEl.dataset.lvl !== lvl) {
+          iconEl.dataset.lvl = lvl;
+          iconEl.innerHTML = iconSvg;
+        }
       });
     }
 
+    let sourcesRenderedCount = 0;
     function renderSourcesDrawer(sources) {
       const container = document.getElementById('sourcesListContainer');
       const list = Array.isArray(sources) && sources.length > 0 ? sources : FALLBACK_SOURCES;
+      if (sourcesRenderedCount === list.length && container.children.length > 0) return;
+      sourcesRenderedCount = list.length;
       container.innerHTML = '';
 
-      list.forEach((src, idx) => {
+      list.forEach(src => {
         const a = document.createElement('a');
-        a.className = 'source-card-link stagger-item';
-        a.style.setProperty('--stagger-idx', idx);
+        a.className = 'source-card-link';
         a.href = src.url || '#';
         a.target = '_blank';
         a.rel = 'noopener noreferrer';
@@ -1794,7 +1801,6 @@
       const seenClientKeys = new Set();
 
       if (Array.isArray(targetItems) && targetItems.length > 0) {
-        let idx = 0;
         targetItems.forEach(itemObj => {
           const rawLine = typeof itemObj === 'string' ? itemObj : itemObj.line;
           const line = stripLeadingEmojis(rawLine);
@@ -1815,8 +1821,7 @@
             : (!isClearLine && ring === 0 ? `<span class="target-distance-chip">Над городом</span>` : '');
 
           const item = document.createElement('div');
-          item.className = 'target-row-card stagger-item';
-          item.style.setProperty('--stagger-idx', idx++);
+          item.className = 'target-row-card';
           item.innerHTML = `
             <div class="target-row-left">
               <div class="target-vector-icon ${toneClass}">${iconSvg}</div>
@@ -1845,7 +1850,7 @@
 
       if (uniqueLines.length === 0) {
         list.innerHTML = `
-          <div class="target-row-card stagger-item">
+          <div class="target-row-card">
             <div class="target-row-left">
               <div class="target-vector-icon tone-safe">${SVG_ICONS.shieldCheck}</div>
               <span>В Киевской и соседних областях активных БпЛА и ракет не зафиксировано</span>
@@ -1854,13 +1859,12 @@
         return;
       }
 
-      uniqueLines.forEach((line, idx) => {
+      uniqueLines.forEach(line => {
         const isClearLine = /(чисто|не зафіксовано|не зафиксировано|цілей немає|локаційно не|дальние пуски|сейчас нет)/i.test(line);
         const toneClass = isClearLine ? 'tone-safe' : baseTone;
         const iconSvg = isClearLine ? SVG_ICONS.shieldCheck : SVG_ICONS.navigationArrow;
         const item = document.createElement('div');
-        item.className = 'target-row-card stagger-item';
-        item.style.setProperty('--stagger-idx', idx);
+        item.className = 'target-row-card';
         item.innerHTML = `
           <div class="target-row-left">
             <div class="target-vector-icon ${toneClass}">${iconSvg}</div>
@@ -1929,18 +1933,18 @@
 
       if (data.state === 'ALARM') {
         if (data.level === 'RED') {
-          hero.className = 'm3-surface-card hero-state-red m3-anim-enter-2';
+          hero.className = 'm3-surface-card hero-state-red';
           badgeIcon.innerHTML = SVG_ICONS.rocketAlert;
           badgeText.innerText = 'КИЕВ — КРАСНАЯ ТРЕВОГА (РАКЕТНАЯ)';
         } else {
-          hero.className = 'm3-surface-card hero-state-yellow m3-anim-enter-2';
+          hero.className = 'm3-surface-card hero-state-yellow';
           badgeIcon.innerHTML = SVG_ICONS.radarWarn;
           badgeText.innerText = 'КИЕВ — ЖЁЛТАЯ ТРЕВОГА (БпЛА)';
         }
         label.innerHTML = 'Вероятность<br>скорого отбоя';
         timeEyebrow.innerText = 'Прогноз отбоя';
       } else {
-        hero.className = 'm3-surface-card hero-state-safe m3-anim-enter-2';
+        hero.className = 'm3-surface-card hero-state-safe';
         badgeIcon.innerHTML = SVG_ICONS.shieldCheck;
         badgeText.innerText = 'КИЕВ — ЧИСТОЕ НЕБО / ОТБОЙ';
         label.innerHTML = 'Вероятность<br>тревоги в Киеве';
@@ -1965,7 +1969,7 @@
       try {
         const endpoint = forceScan ? `${baseUrl}/api/scan` : `${baseUrl}/api/status`;
         const ctrl = new AbortController();
-        const timer = setTimeout(() => ctrl.abort(), 20000);
+        const timer = setTimeout(() => ctrl.abort(), 14000);
         const res = await fetch(endpoint, {
           method: forceScan ? 'POST' : 'GET',
           signal: ctrl.signal,
@@ -2011,7 +2015,7 @@
 
       try {
         const ctrl = new AbortController();
-        const timer = setTimeout(() => ctrl.abort(), 20000);
+        const timer = setTimeout(() => ctrl.abort(), 16000);
         const res = await fetch(`${baseUrl}/api/ask`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -2060,7 +2064,7 @@
           bar.style.width = `${s.pct}%`;
           stepText.innerText = s.text;
           chip.innerText = s.chip;
-        }, (idx + 1) * 400);
+        }, (idx + 1) * 350);
       });
     }
 
@@ -2077,7 +2081,11 @@
       try {
         const raw = localStorage.getItem(CACHE_KEY);
         if (raw) {
-          renderScreen(JSON.parse(raw));
+          const cached = JSON.parse(raw);
+          // Игнорируем устаревший кэш старше 15 минут
+          if (cached && cached.updatedAt && (Date.now() - cached.updatedAt < 15 * 60000)) {
+            renderScreen(cached);
+          }
         }
       } catch (e) {}
 
@@ -2088,9 +2096,9 @@
       if (bar) bar.style.width = '100%';
       setTimeout(() => {
         if (loader) loader.classList.add('hidden');
-      }, 320);
+      }, 280);
 
-      setInterval(() => fetchRadarStatus(false), 45000);
+      setInterval(() => fetchRadarStatus(false), 35000);
 
       document.addEventListener('visibilitychange', () => {
         if (!document.hidden) {
